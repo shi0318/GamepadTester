@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GamepadBench from '../../components/GamepadBench.astro';
+import ControllerCard from '../../components/ControllerCard.astro';
+import { CONTROLLERS } from '../../data/controller-library';
+import { ADAPTERS } from '../../data/adapter-library';
+
+export function getStaticPaths() {
+  return CONTROLLERS.map((controller) => ({ params: { slug: controller.slug }, props: { controller } }));
+}
+
+const { controller } = Astro.props;
+const relatedAdapters = ADAPTERS.filter((adapter) => controller.adapterSlugs.includes(adapter.slug));
+const relatedControllers = CONTROLLERS.filter((item) => item.slug !== controller.slug && item.category === controller.category).slice(0, 3);
+---
+
+<BaseLayout title={`${controller.name} Test & Compatibility – Gamepad Tester`} description={`Test ${controller.name} online and check browser mapping, connection modes, inputs, rumble support and known compatibility quirks.`} canonicalPath={`/controllers/${controller.slug}/`}>
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">{controller.category.toUpperCase()} CONTROLLER PROFILE</span><h1>{controller.name} compatibility and test guide.</h1><p class="lede">{controller.summary}</p><div class="profile-actions"><a class="primary-button" href={controller.testHref === '/' ? '/#tester' : `${controller.testHref}#tester`}>Test this controller <span>→</span></a><a class="secondary-button" href="/controllers/">Browse all controllers</a></div></div></section>
+  <section class="profile-summary shell"><div class="profile-facts"><div><span>Maker</span><strong>{controller.maker}</strong></div><div><span>Connection</span><strong>{controller.connection}</strong></div><div><span>Protocol</span><strong>{controller.protocol}</strong></div><div><span>Common platforms</span><strong>{controller.platforms.join(' · ')}</strong></div></div><div class="profile-note"><span class="panel-label">BROWSER MAPPING</span><p>{controller.browserMapping}</p></div></section>
+  <div class="tool-wrap"><GamepadBench mode={controller.slug === 'ps5-dualsense' ? 'ps5' : controller.slug === 'xbox-series-controller' ? 'xbox' : controller.slug === 'switch-pro-controller' ? 'switch' : 'full'} compact /></div>
+  <section class="profile-content shell"><article class="info-card"><span class="panel-label">INPUTS TO CHECK</span><h2>What the tester should show</h2><ul>{controller.inputs.map((input) => <li>{input}</li>)}</ul><p>Press each control on the <a class="inline-link" href="/#tester">full gamepad tester</a>. The button matrix and raw API panel are more reliable than a brand label when a controller is in a different mode.</p></article><article class="info-card"><span class="panel-label">OUTPUTS AND LIMITS</span><h2>What may not appear</h2><ul>{controller.outputs.map((output) => <li>{output}</li>)}</ul><p>Rumble is an optional browser capability. A missing rumble button does not by itself prove that the motor is damaged.</p></article><article class="info-card profile-wide"><span class="panel-label">KNOWN QUIRKS</span><h2>Before calling it broken</h2><ul>{controller.quirks.map((quirk) => <li>{quirk}</li>)}</ul></article></section>
+  {relatedAdapters.length > 0 && <section class="related-tools shell"><div class="section-heading"><div><span class="section-kicker">NEXT CONNECTION</span><h2>Adapters worth checking</h2></div><a class="text-link" href="/controller-adapters/">See all adapters →</a></div><div class="related-grid">{relatedAdapters.map((adapter) => <a href={`/controller-adapters/${adapter.slug}/`} class="related-card"><span>{adapter.category}</span><strong>{adapter.name}</strong><small>{adapter.input} → {adapter.output}</small><em>View guide →</em></a>)}</div></section>}
+  <section class="related-tools shell"><div class="section-heading"><div><span class="section-kicker">MORE PROFILES</span><h2>Similar controllers</h2></div></div><div class="catalog-grid profile-related-grid">{relatedControllers.map((item) => <ControllerCard controller={item} />)}</div></section>
+</BaseLayout>

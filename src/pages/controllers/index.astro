@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ControllerCard from '../../components/ControllerCard.astro';
+import { CONTROLLERS } from '../../data/controller-library';
+
+const categories = ['All', 'Modern', 'Retro', 'Generic'];
+---
+
+<BaseLayout title="Gamepad Compatibility Library – Controller Tests & Browser Mappings" description="Browse controller compatibility profiles for PS5, Xbox, Switch, 8BitDo, Logitech and generic USB gamepads. Check connections, browser mappings, rumble support, quirks and the right online gamepad test." canonicalPath="/controllers/">
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">CONTROLLER LIBRARY</span><h1>Find your controller. Know what works.</h1><p class="lede">Use the live gamepad tester first, then check how a controller connects, what the browser exposes and which limitations to expect.</p><a class="primary-button" href="/#tester">Test a connected controller <span>→</span></a></div></section>
+  <section class="catalog-intro shell"><div class="catalog-intro-copy"><span class="section-kicker">COMPATIBILITY DATABASE</span><h2>Practical answers before you troubleshoot.</h2><p>These profiles are written for browser testing: connection type, protocol, expected inputs, rumble behavior and common mapping surprises. A profile is a starting point, not a promise that every revision behaves identically.</p></div><div class="catalog-stat-grid"><div><strong>{CONTROLLERS.length}</strong><span>starter profiles</span></div><div><strong>USB + BT</strong><span>connection paths</span></div><div><strong>API-first</strong><span>browser evidence</span></div></div></section>
+  <section class="catalog-section shell"><div class="catalog-toolbar"><div><span class="section-kicker">BROWSE PROFILES</span><h2>Controller compatibility</h2></div><label class="catalog-search-label" for="controller-search">Search controller profiles<input id="controller-search" type="search" placeholder="Search model, brand or platform" /></label></div><div class="catalog-filters" role="group" aria-label="Filter controller profiles">{categories.map((category) => <button class:list={["catalog-filter", category === 'All' && "active"]} type="button" data-filter={category}>{category}</button>)}</div><div class="catalog-grid" id="controller-catalog">{CONTROLLERS.map((controller) => <div class="catalog-item" data-category={controller.category} data-search={`${controller.name} ${controller.maker} ${controller.platforms.join(' ')} ${controller.protocol}`}><ControllerCard controller={controller} /></div>)}</div><p class="catalog-empty" id="controller-empty" hidden>No matching controller profile yet. Test the device on the <a href="/">main gamepad tester</a> and use the raw API panel to identify its mapping.</p></section>
+  <section class="guide-grid shell"><article class="info-card"><span class="panel-label">HOW TO USE THIS LIBRARY</span><h2>Start with the live signal</h2><ol><li>Connect the controller in Windows, macOS or Linux.</li><li>Open the <a class="inline-link" href="/">gamepad tester</a> and press a button.</li><li>Compare the reported name, mapping, button count and axes with the closest profile.</li><li>Use the profile quirks before deciding that a missing feature means a broken controller.</li></ol></article><article class="info-card"><span class="panel-label">WHAT THE BROWSER CAN'T PROVE</span><h2>Compatibility is not a hardware certificate</h2><p>The standard Gamepad API does not expose every vendor feature. Adaptive triggers, motion sensors, touchpad coordinates, firmware state and exact hardware polling rate may require a vendor app or device-specific tool.</p><a class="text-link" href="/gamepad-not-detected/">Controller not detected? Read the guide →</a></article></section>
+</BaseLayout>
+
+<script>
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-category]'));
+  const filters = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  const search = document.querySelector<HTMLInputElement>('#controller-search');
+  const empty = document.querySelector<HTMLElement>('#controller-empty');
+  let category = 'All';
+  const update = () => {
+    const query = (search?.value || '').trim().toLowerCase();
+    let visible = 0;
+    items.forEach((item) => {
+      const matchesCategory = category === 'All' || item.dataset.category === category;
+      const matchesSearch = !query || (item.dataset.search || '').toLowerCase().includes(query);
+      const show = matchesCategory && matchesSearch;
+      item.hidden = !show;
+      if (show) visible += 1;
+    });
+    if (empty) empty.hidden = visible !== 0;
+  };
+  filters.forEach((filter) => filter.addEventListener('click', () => {
+    category = filter.dataset.filter || 'All';
+    filters.forEach((button) => button.classList.toggle('active', button === filter));
+    update();
+  }));
+  search?.addEventListener('input', update);
+</script>

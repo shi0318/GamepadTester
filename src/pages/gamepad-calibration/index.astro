@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolPage from '../../components/ToolPage.astro';
+
+const faq = [
+  { question: 'Does this calibration write settings to my controller?', answer: 'No. This page creates a temporary center reference in your browser and measures the signal exposed by the Gamepad API. It does not write firmware or controller memory.' },
+  { question: 'How is this different from a PS5 HID calibration tool?', answer: 'Some PS4 and PS5 tools use WebHID to write hardware-specific calibration data. That requires a compatible browser, a USB connection and explicit device access. This general-purpose tester stays read-only and works across more controllers.' },
+  { question: 'How should I calibrate the center?', answer: 'Connect the controller, leave both sticks untouched on a flat surface, then click Calibrate center. After that, move each stick through its full range and run the circle test.' },
+];
+---
+<BaseLayout title="Gamepad Calibration Test – Center & Stick Range Check" description="Run a browser-based gamepad calibration test. Set a temporary stick center reference, inspect drift and jitter, and check analog range without changing controller firmware." faqs={faq}>
+  <ToolPage title="Calibrate the signal. Keep the hardware safe." description="A read-only gamepad calibration test for center offset, drift, jitter and analog stick range. It uses the browser Gamepad API and does not write to your controller." kicker="DIAGNOSTIC TOOL / 06" mode="drift" intro="Set a temporary browser-side center reference, then verify that your sticks return to center and reach a consistent range." checks={['Temporary left and right stick center reference', 'Center offset, deadzone and jitter signals', 'Full-range circularity check', 'Read-only browser diagnostics']} notes={['Use USB when comparing calibration results.', 'Keep both sticks untouched while setting the center.', 'A persistent drift after calibration usually indicates hardware wear.', 'PS4/PS5 HID write-back tools are separate and device-specific.']} faq={faq} />
+  <section class="subpage-content shell calibration-boundary">
+    <article class="info-card"><span class="panel-label">REFERENCE SITE DIFFERENCE</span><h2>Read-only by design</h2><p>Some PS4 and PS5 calibration utilities can write device-specific values through WebHID. That is powerful but hardware-specific and carries a recovery risk if interrupted. This tester keeps the calibration reference local to the page.</p></article>
+    <article class="info-card"><span class="panel-label">WHAT TO DO NEXT</span><h2>Diagnose before replacing</h2><p>If the stick is stable after a fresh center reference, the issue may be a software offset. If it still reports movement while untouched, cleaning or replacing the analog module may be necessary.</p></article>
+  </section>
+</BaseLayout>

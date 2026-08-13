@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdapterCard from '../../components/AdapterCard.astro';
+import { ADAPTERS } from '../../data/adapter-library';
+
+const categories = ['All', ...Array.from(new Set(ADAPTERS.map((adapter) => adapter.category)))];
+---
+
+<BaseLayout title="Gamepad Adapter Finder – USB, Bluetooth & Retro Console Adapters" description="Find the right gamepad adapter direction: Bluetooth to USB, USB to GameCube, USB to N64, DB9 and multi-console controller adapters. Compare protocols, targets and buying checks." canonicalPath="/controller-adapters/">
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">CONTROLLER ADAPTER FINDER</span><h1>Connect the controller you already own.</h1><p class="lede">Choose an adapter by the direction of the signal: Bluetooth or USB in, console-specific output out. These recommendations are compatibility guides, not blind product endorsements.</p><a class="primary-button" href="/#tester">Test your controller first <span>→</span></a></div></section>
+  <section class="catalog-intro shell"><div class="catalog-intro-copy"><span class="section-kicker">FROM INPUT TO OUTPUT</span><h2>Pick the protocol bridge, not just the connector.</h2><p>A USB plug does not guarantee a USB gamepad signal, and a Bluetooth receiver does not guarantee rumble or every button. Start by identifying the controller in the <a class="inline-link" href="/">browser tester</a>, then check the adapter's input, output and target platform.</p></div><div class="adapter-flow-hero"><span>Controller</span><b>→</b><span>Adapter</span><b>→</b><span>Host platform</span></div></section>
+  <section class="catalog-section shell"><div class="catalog-toolbar"><div><span class="section-kicker">BROWSE DIRECTIONS</span><h2>Adapter recommendations</h2></div><label class="catalog-search-label" for="adapter-search">Search adapter guides<input id="adapter-search" type="search" placeholder="Search USB, Bluetooth, N64..." /></label></div><div class="catalog-filters" role="group" aria-label="Filter adapter guides">{categories.map((category) => <button class:list={["catalog-filter", category === 'All' && "active"]} type="button" data-filter={category}>{category}</button>)}</div><div class="catalog-grid" id="adapter-catalog">{ADAPTERS.map((adapter) => <div class="catalog-item" data-category={adapter.category} data-search={`${adapter.name} ${adapter.category} ${adapter.input} ${adapter.output} ${adapter.target}`}><AdapterCard adapter={adapter} /></div>)}</div><p class="catalog-empty" id="adapter-empty" hidden>No matching adapter guide yet. Start from the <a href="/">gamepad tester</a> and search by your controller's connection type and target platform.</p></section>
+  <section class="guide-grid shell"><article class="info-card"><span class="panel-label">BUYING CHECKLIST</span><h2>Verify these three things</h2><ol><li>Input: does the adapter accept your controller's USB, Bluetooth or proprietary mode?</li><li>Output: does it speak the exact protocol your host expects?</li><li>Features: will analog triggers, rumble, calibration and profiles pass through?</li></ol></article><article class="info-card"><span class="panel-label">IMPORTANT LIMIT</span><h2>An adapter cannot repair a bad input</h2><p>Run the controller test before shopping. If the browser already sees a stuck button or drifting stick, a protocol adapter may translate the problem rather than fix it.</p><a class="text-link" href="/stick-drift-test/">Run a stick drift test →</a></article></section>
+</BaseLayout>
+
+<script>
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-category]'));
+  const filters = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  const search = document.querySelector<HTMLInputElement>('#adapter-search');
+  const empty = document.querySelector<HTMLElement>('#adapter-empty');
+  let category = 'All';
+  const update = () => {
+    const query = (search?.value || '').trim().toLowerCase();
+    let visible = 0;
+    items.forEach((item) => {
+      const show = (category === 'All' || item.dataset.category === category) && (!query || (item.dataset.search || '').toLowerCase().includes(query));
+      item.hidden = !show;
+      if (show) visible += 1;
+    });
+    if (empty) empty.hidden = visible !== 0;
+  };
+  filters.forEach((filter) => filter.addEventListener('click', () => {
+    category = filter.dataset.filter || 'All';
+    filters.forEach((button) => button.classList.toggle('active', button === filter));
+    update();
+  }));
+  search?.addEventListener('input', update);
+</script>

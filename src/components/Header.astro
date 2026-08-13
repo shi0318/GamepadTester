@@ -1,0 +1,19 @@
+---
+import { NAVIGATION } from '../data/site';
+---
+
+<header class="site-header">
+  <div class="shell nav-shell">
+    <a class="brand" href="/" aria-label="Gamepad Tester home">
+      <img src="/gamepad-tester-logo.svg" width="32" height="32" alt="" />
+      <span>Gamepad<span class="brand-accent">Tester</span></span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <ul class="nav-list">
+        {NAVIGATION.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/gamepad-not-detected/">Troubleshoot</a></li>
+        <li><button class="theme-button" id="theme-toggle" type="button" aria-label="Toggle color theme">◐</button></li>
+      </ul>
+    </nav>
+  </div>
+</header>

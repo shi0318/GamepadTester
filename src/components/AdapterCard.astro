@@ -1,0 +1,15 @@
+---
+import type { AdapterProfile } from '../data/adapter-library';
+
+interface Props { adapter: AdapterProfile; }
+const { adapter } = Astro.props;
+---
+
+<a class="catalog-card adapter-card" href={`/controller-adapters/${adapter.slug}/`}>
+  <div class="catalog-card-topline"><span class="catalog-badge">{adapter.category}</span><span class="catalog-meta">{adapter.output}</span></div>
+  <h2>{adapter.name}</h2>
+  <p class="adapter-flow"><span>{adapter.input}</span><b>→</b><span>{adapter.output}</span></p>
+  <p>{adapter.summary}</p>
+  <p class="catalog-maker">For {adapter.target}</p>
+  <strong class="catalog-link">Check adapter details →</strong>
+</a>

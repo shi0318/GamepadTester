@@ -1,0 +1,13 @@
+---
+import GamepadBench from './GamepadBench.astro';
+import { TOOL_PAGES } from '../data/site';
+
+interface Props { title: string; description: string; kicker: string; mode: string; intro: string; checks: string[]; notes: string[]; faq: { question: string; answer: string }[]; }
+const { title, description, kicker, mode, intro, checks, notes, faq } = Astro.props;
+---
+
+<section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">{kicker}</span><h1>{title}</h1><p class="lede">{intro}</p><a class="primary-button" href="#tester">Run this test <span>→</span></a></div></section>
+<div class="tool-wrap"><GamepadBench mode={mode} compact /></div>
+<section class="subpage-content shell"><article class="info-card"><span class="panel-label">WHAT IT CHECKS</span><h2>Measure the signal, not the guess</h2><p>{description}</p><ul>{checks.map((check) => <li>{check}</li>)}</ul></article><article class="info-card"><span class="panel-label">HOW TO GET A CLEAN RESULT</span><h2>Test conditions matter</h2><p>Use a wired connection when possible, close other controller software, and press a button after the device is connected.</p><ul>{notes.map((note) => <li>{note}</li>)}</ul></article><div class="tool-callout"><strong>Privacy by design:</strong> input data is read and processed locally by your browser. It is not uploaded to a server.</div></section>
+<section class="related-tools shell"><div class="section-heading"><div><span class="section-kicker">KEEP TESTING</span><h2>Related tools</h2></div></div><div class="related-grid">{TOOL_PAGES.filter((item) => item.href !== Astro.url.pathname).slice(0, 4).map((item) => <a href={item.href} class="related-card"><span>{item.kicker}</span><strong>{item.label}</strong><small>{item.description}</small><em>Open →</em></a>)}</div></section>
+<section class="faq-section shell"><div class="section-heading"><div><span class="section-kicker">FAQ</span><h2>Questions about this test</h2></div></div><div class="faq-grid">{faq.map((item, index) => <details open={index === 0}><summary>{item.question}<span>+</span></summary><p>{item.answer}</p></details>)}</div></section>

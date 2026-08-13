@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GamepadBench from '../components/GamepadBench.astro';
+import FeatureCards from '../components/FeatureCards.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import FaqList from '../components/FaqList.astro';
+---
+
+<BaseLayout title="Gamepad Tester Online – Test Buttons, Sticks & Drift" description="Test a connected Xbox, PlayStation, Switch or PC gamepad online. Check buttons, sticks, triggers, drift and supported vibration locally in your browser—no download required." pageType="home" canonicalPath="/">
+  <section class="home-intro"><div class="shell hero-grid"><div><p class="eyebrow">BROWSER GAMEPAD DIAGNOSTICS</p><h1>Know your controller.<br /><span>Read the signal.</span></h1><p class="lede">A private gamepad tester for buttons, sticks, triggers and supported vibration. Connect your controller in your operating system first, then inspect the values exposed by your browser in real time.</p><div class="hero-meta"><span>⌁ Instant feedback</span><span>↯ No download</span><span>◈ API limits shown</span></div></div><div class="hero-orbit" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit-core">⌁</div></div></div></section>
+  <div class="game-wrap"><GamepadBench /></div>
+  <FeatureCards /><HowItWorks /><FaqList />
+</BaseLayout>

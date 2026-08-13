@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE, FAQS } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  pageType?: 'home' | 'article';
+  faqs?: { question: string; answer: string }[];
+}
+
+const { title, description, canonicalPath = Astro.url.pathname, pageType = 'article', faqs = [] } = Astro.props;
+const canonical = new URL(canonicalPath, SITE.url).href;
+const graph: Record<string, unknown>[] = [
+  { '@type': 'Organization', '@id': `${SITE.url}/#organization`, name: SITE.name, url: `${SITE.url}/`, logo: { '@type': 'ImageObject', url: `${SITE.url}/gamepad-tester-logo.svg` } },
+];
+
+if (pageType === 'home') {
+  graph.push(
+    { '@type': 'WebSite', '@id': `${canonical}#website`, name: SITE.name, url: canonical, description, publisher: { '@id': `${SITE.url}/#organization` } },
+    { '@type': 'WebApplication', '@id': `${canonical}#app`, name: title, url: canonical, applicationCategory: 'GameApplication', operatingSystem: 'Web', browserRequirements: 'Requires a modern desktop browser with Gamepad API support; controller must already be connected by the operating system.', isAccessibleForFree: true, description, featureList: ['Button and D-pad testing', 'Browser-side stick drift and deadzone check', 'Trigger pressure readout', 'Supported controller vibration test', 'Raw Gamepad API data'], publisher: { '@id': `${SITE.url}/#organization` } },
+  );
+} else {
+  graph.push({ '@type': 'WebApplication', '@id': `${canonical}#app`, name: title, url: canonical, applicationCategory: 'GameApplication', operatingSystem: 'Web', isAccessibleForFree: true, description, publisher: { '@id': `${SITE.url}/#organization` } });
+}
+
+const activeFaqs = faqs.length ? faqs : pageType === 'home' ? FAQS : [];
+if (activeFaqs.length) graph.push({ '@type': 'FAQPage', '@id': `${canonical}#faq`, mainEntity: activeFaqs.map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })) });
+const schema = { '@context': 'https://schema.org', '@graph': graph };
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={pageType === 'home' ? 'website' : 'article'} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${SITE.url}/gamepad-tester-logo.svg`} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#081017" />
+    <link rel="icon" href="/gamepad-tester-favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+    <script>import '../scripts/theme.js';</script>
+  </body>
+</html>
