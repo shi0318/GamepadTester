@@ -1,0 +1,23 @@
+<section class="drift-guide shell" aria-labelledby="joystick-drift-guide-title">
+  <div class="section-heading drift-guide-heading">
+    <div>
+      <span class="section-kicker">JOYSTICK DRIFT GUIDE</span>
+      <h2 id="joystick-drift-guide-title">How this joystick drift test works</h2>
+    </div>
+    <p class="section-intro">A browser-side check for unwanted analog movement, not a firmware repair tool.</p>
+  </div>
+  <div class="drift-step-grid">
+    <article class="drift-step"><span>01</span><h3>Connect and center</h3><p>Plug in or pair your controller, press a button, then leave both joysticks untouched. Click <strong>Calibrate center</strong> so the test can compare later readings with the controller's resting signal.</p></article>
+    <article class="drift-step"><span>02</span><h3>Watch the signal</h3><p>Center offset shows how far the reported stick position sits from its reference. Jitter shows small fluctuations while the joystick is still. A moving value at rest is the clearest sign of drift.</p></article>
+    <article class="drift-step"><span>03</span><h3>Check the range</h3><p>Run the circle test and rotate one stick around its edge. Angle coverage and radius consistency help separate a center problem from a limited or uneven analog range.</p></article>
+  </div>
+  <div class="drift-results-grid">
+    <article class="drift-result"><span>LOW OFFSET</span><h3>Healthy center</h3><p>The joystick stays close to its calibrated center and the jitter reading remains stable when untouched.</p></article>
+    <article class="drift-result"><span>UNSTABLE SIGNAL</span><h3>Watch the jitter</h3><p>Small fluctuations can come from hardware wear, wireless noise, mapping software or browser sampling. Compare USB before drawing a conclusion.</p></article>
+    <article class="drift-result"><span>DRIFT FOUND</span><h3>Unwanted movement</h3><p>A persistent offset above the displayed threshold means the browser is receiving movement at rest. A game deadzone may hide it, but cannot repair the hardware.</p></article>
+  </div>
+  <div class="drift-guide-links">
+    <div><span class="panel-label">WHAT TO TRY NEXT</span><p>Need a deeper check? Use the <a href="/gamepad-calibration/">browser calibration test</a> for a fresh reference, read the <a href="/gamepad-not-detected/">controller connection guide</a>, or compare a specific <a href="/controllers/">controller profile</a>.</p></div>
+    <a class="primary-button" href="#tester">Run joystick drift test <span>→</span></a>
+  </div>
+</section>

@@ -50,3 +50,15 @@ test('homepage keeps the primary keyword and explanatory content in static sourc
   assert.match(explainer, /href="\/stick-drift-test\/"/);
   assert.match(explainer, /href="\/vibration-test\/"/);
 });
+
+test('joystick drift page targets the focused search intent', () => {
+  const driftPage = fs.readFileSync(path.join(root, 'src/pages/stick-drift-test/index.astro'), 'utf8');
+  const guide = fs.readFileSync(path.join(root, 'src/components/JoystickDriftGuide.astro'), 'utf8');
+  assert.match(driftPage, /title="Joystick Drift Test Online/);
+  assert.match(driftPage, /description="Free joystick drift test online/);
+  assert.match(driftPage, /<ToolPage title="Joystick Drift Test Online"/);
+  assert.match(driftPage, /<JoystickDriftGuide \/>/);
+  assert.match(guide, /How this joystick drift test works/);
+  assert.match(guide, /href="\/gamepad-calibration\/"/);
+  assert.match(guide, /href="\/controllers\/"/);
+});

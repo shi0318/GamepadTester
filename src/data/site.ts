@@ -6,14 +6,14 @@ export const SITE = {
 
 export const NAVIGATION = [
   { href: '/', label: 'Tester' },
-  { href: '/stick-drift-test/', label: 'Drift test' },
+  { href: '/stick-drift-test/', label: 'Joystick drift' },
   { href: '/controllers/', label: 'Controllers' },
   { href: '/controller-adapters/', label: 'Adapters' },
   { href: '/tools/', label: 'All tools' },
 ];
 
 export const TOOL_PAGES = [
-  { href: '/stick-drift-test/', label: 'Stick drift test', kicker: 'Analog diagnostics', description: 'Measure stick center offset, deadzone, jitter and unwanted movement.' },
+  { href: '/stick-drift-test/', label: 'Joystick drift test', kicker: 'Analog diagnostics', description: 'Check joystick center offset, deadzone, jitter and unwanted movement.' },
   { href: '/gamepad-calibration/', label: 'Gamepad calibration', kicker: 'Analog diagnostics', description: 'Set a browser-side center reference and check stick range without changing controller firmware.' },
   { href: '/button-test/', label: 'Button test', kicker: 'Input diagnostics', description: 'Check every button, D-pad direction, bumper and trigger response.' },
   { href: '/vibration-test/', label: 'Vibration test', kicker: 'Haptic diagnostics', description: 'Test supported light, heavy, burst and pulse rumble patterns.' },
