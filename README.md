@@ -33,6 +33,6 @@ Use these settings when importing the GitHub repository:
 - Build output directory: `dist`
 - Node.js version: 20 or newer
 
-Set `PUBLIC_SITE_URL` in the Cloudflare Pages environment variables to the final `https://` URL of the site. If it is omitted, the build uses `https://gamepadtester.pages.dev` as the default canonical URL.
+Set `PUBLIC_SITE_URL` in the Cloudflare Pages environment variables to `https://checkgamepad.com` (or another deployment URL for a preview build). If it is omitted, the build uses `https://checkgamepad.com` as the default canonical URL.
 
 The site is static and does not require a server, database, API key or runtime function.

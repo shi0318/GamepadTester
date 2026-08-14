@@ -1,6 +1,6 @@
 export const SITE = {
   name: 'Gamepad Tester',
-  url: import.meta.env.PUBLIC_SITE_URL || 'https://gamepadtester.pages.dev',
+  url: import.meta.env.PUBLIC_SITE_URL || 'https://checkgamepad.com',
   description: 'A free browser-based gamepad tester for practical button, stick, trigger and vibration diagnostics using the standard Gamepad API.',
 };
 

@@ -20,6 +20,17 @@ test('tool page contains static SEO metadata and Gamepad API hook', () => {
   assert.match(script, /vibrationActuator/);
 });
 
+test('production site URL points to checkgamepad.com by default', () => {
+  const config = fs.readFileSync(path.join(root, 'astro.config.mjs'), 'utf8');
+  const site = fs.readFileSync(path.join(root, 'src/data/site.ts'), 'utf8');
+  const robots = fs.readFileSync(path.join(root, 'src/pages/robots.txt.ts'), 'utf8');
+  assert.match(config, /https:\/\/checkgamepad\.com/);
+  assert.match(site, /https:\/\/checkgamepad\.com/);
+  assert.match(robots, /sitemap-index\.xml/);
+  assert.doesNotMatch(config, /gamepadtester\.pages\.dev/);
+  assert.doesNotMatch(site, /gamepadtester\.pages\.dev/);
+});
+
 test('homepage keeps the primary keyword and explanatory content in static source', () => {
   const homepage = fs.readFileSync(path.join(root, 'src/pages/index.astro'), 'utf8');
   const explainer = fs.readFileSync(path.join(root, 'src/components/WhatIsGamepadTester.astro'), 'utf8');

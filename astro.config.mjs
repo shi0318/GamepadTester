@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-const SITE = process.env.PUBLIC_SITE_URL || 'https://gamepadtester.pages.dev';
+const SITE = process.env.PUBLIC_SITE_URL || 'https://checkgamepad.com';
 
 export default defineConfig({
   site: SITE,
