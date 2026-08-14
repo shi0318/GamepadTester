@@ -19,3 +19,15 @@ test('tool page contains static SEO metadata and Gamepad API hook', () => {
   assert.match(script, /gamepadconnected/);
   assert.match(script, /vibrationActuator/);
 });
+
+test('homepage keeps the primary keyword and explanatory content in static source', () => {
+  const homepage = fs.readFileSync(path.join(root, 'src/pages/index.astro'), 'utf8');
+  const explainer = fs.readFileSync(path.join(root, 'src/components/WhatIsGamepadTester.astro'), 'utf8');
+  assert.match(homepage, /title="Gamepad Tester Online/);
+  assert.match(homepage, /description="Gamepad tester online/);
+  assert.match(homepage, /<h1>Gamepad Tester Online<\/h1>/);
+  assert.match(homepage, /<WhatIsGamepadTester \/>/);
+  assert.match(explainer, /href="\/button-test\/"/);
+  assert.match(explainer, /href="\/stick-drift-test\/"/);
+  assert.match(explainer, /href="\/vibration-test\/"/);
+});
