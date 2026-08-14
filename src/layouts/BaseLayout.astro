@@ -15,7 +15,7 @@ interface Props {
 const { title, description, canonicalPath = Astro.url.pathname, pageType = 'article', faqs = [] } = Astro.props;
 const canonical = new URL(canonicalPath, SITE.url).href;
 const graph: Record<string, unknown>[] = [
-  { '@type': 'Organization', '@id': `${SITE.url}/#organization`, name: SITE.name, url: `${SITE.url}/`, logo: { '@type': 'ImageObject', url: `${SITE.url}/gamepad-tester-logo.svg` } },
+  { '@type': 'Organization', '@id': `${SITE.url}/#organization`, name: SITE.name, url: `${SITE.url}/`, logo: { '@type': 'ImageObject', url: `${SITE.url}/gamepad-tester-logo.svg`, caption: 'Gamepad Tester controller logo' } },
 ];
 
 if (pageType === 'home') {
@@ -46,6 +46,7 @@ const schema = { '@context': 'https://schema.org', '@graph': graph };
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={`${SITE.url}/gamepad-tester-logo.svg`} />
+    <meta property="og:image:alt" content="Gamepad Tester controller logo" />
     <meta name="twitter:card" content="summary" />
     <meta name="theme-color" content="#081017" />
     <link rel="icon" href="/gamepad-tester-favicon.svg" type="image/svg+xml" />

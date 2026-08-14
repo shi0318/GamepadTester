@@ -1,5 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-labelledby="favicon-title favicon-desc">
+  <title id="favicon-title">Gamepad Tester controller icon</title>
+  <desc id="favicon-desc">A dark game controller icon on a bright green rounded square.</desc>
   <rect width="64" height="64" rx="16" fill="#A5ED38"/>
-  <path d="M17 26h30c5 0 8.7 4 9.7 8.5l2.5 12.4c1.1 5.4-5.5 8.8-9 4.5l-5.2-6.5H19l-5.2 6.5c-3.5 4.3-10.1.9-9-4.5l2.5-12.4C8.3 30 12 26 17 26Z" stroke="#081017" stroke-width="4"/>
-  <path d="M21 35v10m-5-5h10M42 37h.1M49 43h.1" stroke="#081017" stroke-width="4" stroke-linecap="round"/>
+  <g transform="translate(-2 -12) scale(1.07 1.32)">
+    <path d="M17 26h30c5 0 8.7 4 9.7 8.5l2.5 12.4c1.1 5.4-5.5 8.8-9 4.5l-5.2-6.5H19l-5.2 6.5c-3.5 4.3-10.1.9-9-4.5l2.5-12.4C8.3 30 12 26 17 26Z" stroke="#081017" stroke-width="4"/>
+    <path d="M21 35v10m-5-5h10M42 37h.1M49 43h.1" stroke="#081017" stroke-width="4" stroke-linecap="round"/>
+  </g>
 </svg>
