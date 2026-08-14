@@ -10,9 +10,10 @@ interface Props {
   canonicalPath?: string;
   pageType?: 'home' | 'article';
   faqs?: { question: string; answer: string }[];
+  noindex?: boolean;
 }
 
-const { title, description, canonicalPath = Astro.url.pathname, pageType = 'article', faqs = [] } = Astro.props;
+const { title, description, canonicalPath = Astro.url.pathname, pageType = 'article', faqs = [], noindex = false } = Astro.props;
 const canonical = new URL(canonicalPath, SITE.url).href;
 const graph: Record<string, unknown>[] = [
   { '@type': 'Organization', '@id': `${SITE.url}/#organization`, name: SITE.name, url: `${SITE.url}/`, logo: { '@type': 'ImageObject', url: `${SITE.url}/gamepad-tester-logo.svg`, caption: 'Gamepad Tester controller logo' } },
@@ -39,6 +40,7 @@ const schema = { '@context': 'https://schema.org', '@graph': graph };
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content={pageType === 'home' ? 'website' : 'article'} />
     <meta property="og:site_name" content={SITE.name} />

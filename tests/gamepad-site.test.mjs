@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('..', import.meta.url));
 
 test('Astro routes and shared components exist', () => {
-  for (const file of ['astro.config.mjs', 'public/gamepad-tester-logo.svg', 'public/gamepad-tester-favicon.svg', 'src/layouts/BaseLayout.astro', 'src/components/GamepadBench.astro', 'src/scripts/gamepad-tester.js', 'src/data/controller-library.ts', 'src/data/adapter-library.ts', 'src/components/ControllerCard.astro', 'src/components/AdapterCard.astro', 'src/pages/index.astro', 'src/pages/tools/index.astro', 'src/pages/controllers/index.astro', 'src/pages/controllers/[slug].astro', 'src/pages/controller-adapters/index.astro', 'src/pages/controller-adapters/[slug].astro', 'src/pages/stick-drift-test/index.astro', 'src/pages/gamepad-calibration/index.astro', 'src/pages/button-test/index.astro', 'src/pages/vibration-test/index.astro', 'src/pages/ps5-controller-test/index.astro', 'src/pages/xbox-controller-test/index.astro', 'src/pages/switch-controller-test/index.astro', 'src/pages/gamepad-not-detected/index.astro']) assert.equal(fs.existsSync(path.join(root, file)), true, file);
+  for (const file of ['astro.config.mjs', 'public/gamepad-tester-logo.svg', 'public/gamepad-tester-favicon.svg', 'src/layouts/BaseLayout.astro', 'src/components/GamepadBench.astro', 'src/scripts/gamepad-tester.js', 'src/data/controller-library.ts', 'src/data/adapter-library.ts', 'src/components/ControllerCard.astro', 'src/components/AdapterCard.astro', 'src/pages/index.astro', 'src/pages/404.astro', 'src/pages/tools/index.astro', 'src/pages/controllers/index.astro', 'src/pages/controllers/[slug].astro', 'src/pages/controller-adapters/index.astro', 'src/pages/controller-adapters/[slug].astro', 'src/pages/stick-drift-test/index.astro', 'src/pages/gamepad-calibration/index.astro', 'src/pages/button-test/index.astro', 'src/pages/vibration-test/index.astro', 'src/pages/ps5-controller-test/index.astro', 'src/pages/xbox-controller-test/index.astro', 'src/pages/switch-controller-test/index.astro', 'src/pages/gamepad-not-detected/index.astro']) assert.equal(fs.existsSync(path.join(root, file)), true, file);
 });
 
 test('tool page contains static SEO metadata and Gamepad API hook', () => {
@@ -29,6 +29,14 @@ test('production site URL points to checkgamepad.com by default', () => {
   assert.match(robots, /sitemap-index\.xml/);
   assert.doesNotMatch(config, /gamepadtester\.pages\.dev/);
   assert.doesNotMatch(site, /gamepadtester\.pages\.dev/);
+});
+
+test('404 page is explicit and non-indexable', () => {
+  const page = fs.readFileSync(path.join(root, 'src/pages/404.astro'), 'utf8');
+  const layout = fs.readFileSync(path.join(root, 'src/layouts/BaseLayout.astro'), 'utf8');
+  assert.match(page, /<BaseLayout[^>]*noindex/);
+  assert.match(page, /Page not found/);
+  assert.match(layout, /name="robots" content="noindex,follow"/);
 });
 
 test('homepage keeps the primary keyword and explanatory content in static source', () => {
