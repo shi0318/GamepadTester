@@ -176,7 +176,7 @@ function updateDriftDiagnostics() {
   if (!stats.length) return;
   const maxOffset = Math.max(...stats.map((item) => item.offset));
   const maxJitter = Math.max(...stats.map((item) => item.jitter));
-  const score = clamp((maxOffset / 0.2) * 100);
+  const score = clamp(maxOffset / 0.2) * 100;
   setText('#center-offset', maxOffset.toFixed(3));
   setText('#jitter-value', maxJitter.toFixed(3));
   setText('#drift-score', Math.round(score) + ' / 100');
