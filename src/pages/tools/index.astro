@@ -1,9 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { TOOL_PAGES } from '../../data/site';
+
+const itemList = TOOL_PAGES.map((item) => ({ name: item.label, path: item.href, description: item.description }));
 ---
 
-<BaseLayout title="Gamepad Testing Tools – Button, Drift, Vibration & More" description="Explore free online gamepad testing tools for buttons, stick drift, vibration, triggers, polling rate, PS5, Xbox and Switch controllers.">
+<BaseLayout title="Gamepad Testing Tools – Button, Drift, Vibration & More" description="Explore free online gamepad testing tools for buttons, stick drift, vibration, triggers, polling rate, PS5, Xbox and Switch controllers." itemList={itemList} itemListName="Gamepad testing tools">
   <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">THE COMPLETE TOOLBOX</span><h1>Every test your controller needs.</h1><p class="lede">Start with the full tester or choose a focused diagnostic for a specific button, stick, haptic or device question.</p></div></section>
   <section class="tools-index shell"><div class="tools-index-grid">{TOOL_PAGES.map((item, index) => <a class="tool-index-card" href={item.href}><span>0{index + 1}</span><small>{item.kicker}</small><h2>{item.label}</h2><p>{item.description}</p><strong>Open tool →</strong></a>)}</div></section>
 </BaseLayout>

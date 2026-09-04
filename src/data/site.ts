@@ -29,6 +29,28 @@ export const CONTROLLER_LIBRARY_LINKS = [
   { href: '/controller-adapters/', label: 'Controller adapters', description: 'Find the right USB, Bluetooth or retro-console adapter direction.' },
 ];
 
+export interface Crumb {
+  name: string;
+  path: string;
+}
+
+const STANDALONE_LABELS: Record<string, string> = {
+  '/tools/': 'All tools',
+  '/controllers/': 'Controllers',
+  '/controller-adapters/': 'Adapters',
+  '/gamepad-not-detected/': 'Controller not detected',
+  '/about/': 'About',
+  '/privacy-policy/': 'Privacy policy',
+};
+
+/** Breadcrumb trail for a path, excluding the implicit Home entry. */
+export const resolveBreadcrumbs = (pathname: string): Crumb[] => {
+  const tool = TOOL_PAGES.find((item) => item.href === pathname);
+  if (tool) return [{ name: 'All tools', path: '/tools/' }, { name: tool.label, path: tool.href }];
+  const label = STANDALONE_LABELS[pathname];
+  return label ? [{ name: label, path: pathname }] : [];
+};
+
 export const FAQS = [
   { question: 'Why is my controller not detected?', answer: 'Connect the controller before opening the page, then press any button or move a stick. If it still does not appear, try a USB cable, close Steam or other controller software, and reload the browser.' },
   { question: 'Does this work with PS5, Xbox and Switch?', answer: 'Many modern Xbox, PlayStation, Switch Pro and generic USB or Bluetooth controllers expose standard inputs through the Gamepad API. The operating system must connect the controller first; this site cannot pair Bluetooth or install drivers.' },
