@@ -4,6 +4,7 @@ import GamepadBench from '../components/GamepadBench.astro';
 import WhatIsGamepadTester from '../components/WhatIsGamepadTester.astro';
 import FeatureCards from '../components/FeatureCards.astro';
 import HowItWorks from '../components/HowItWorks.astro';
+import AdapterDirections from '../components/AdapterDirections.astro';
 import FaqList from '../components/FaqList.astro';
 ---
 
@@ -11,5 +12,5 @@ import FaqList from '../components/FaqList.astro';
   <section class="home-intro"><div class="shell hero-grid"><div><p class="eyebrow">BROWSER GAMEPAD DIAGNOSTICS</p><h1>Gamepad Tester Online</h1><p class="hero-tagline">Read the signal.</p><p class="lede">A private browser tool for checking controller buttons, sticks, triggers and supported vibration. Connect your controller in your operating system first, then inspect the values exposed by your browser in real time.</p><div class="hero-meta"><span>⌁ Instant feedback</span><span>↯ No download</span><span>◈ API limits shown</span></div></div><div class="hero-orbit" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit-core">⌁</div></div></div></section>
   <div class="game-wrap"><GamepadBench /></div>
   <WhatIsGamepadTester />
-  <FeatureCards /><HowItWorks /><FaqList />
+  <FeatureCards /><HowItWorks /><AdapterDirections /><FaqList />
 </BaseLayout>

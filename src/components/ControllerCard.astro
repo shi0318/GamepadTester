@@ -5,11 +5,11 @@ interface Props { controller: ControllerProfile; }
 const { controller } = Astro.props;
 ---
 
-<a class="catalog-card" href={`/controllers/${controller.slug}/`}>
+<article class="catalog-card">
   <div class="catalog-card-topline"><span class="catalog-badge">{controller.category}</span><span class="catalog-meta">{controller.connection}</span></div>
-  <h2>{controller.name}</h2>
+  <h2><a class="catalog-card-link" href={`/controllers/${controller.slug}/`}>{controller.name}</a></h2>
   <p class="catalog-maker">{controller.maker} · {controller.protocol}</p>
   <p>{controller.summary}</p>
   <div class="catalog-tags">{controller.platforms.slice(0, 3).map((platform) => <span>{platform}</span>)}</div>
   <strong class="catalog-link">View compatibility →</strong>
-</a>
+</article>

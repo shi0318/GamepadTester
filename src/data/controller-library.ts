@@ -11,7 +11,6 @@ export interface ControllerProfile {
   outputs: string[];
   browserMapping: string;
   quirks: string[];
-  adapterSlugs: string[];
   testHref: string;
 }
 
@@ -29,7 +28,6 @@ export const CONTROLLERS: ControllerProfile[] = [
     outputs: ['Rumble may be available', 'Advanced haptics are not exposed consistently'],
     browserMapping: 'The browser can expose the standard buttons and axes, but the exact mapping depends on USB/Bluetooth mode, browser and operating system.',
     quirks: ['Adaptive triggers and full touchpad coordinates are not guaranteed through the standard Gamepad API.', 'USB is usually the easiest connection to troubleshoot.'],
-    adapterSlugs: ['bluetooth-to-usb-gamepad-adapter', 'usb-to-retro-console-adapter'],
     testHref: '/ps5-controller-test/',
   },
   {
@@ -45,7 +43,6 @@ export const CONTROLLERS: ControllerProfile[] = [
     outputs: ['Dual-motor rumble may be available'],
     browserMapping: 'Windows commonly exposes a standard mapping, while Bluetooth, Linux and third-party drivers can change button names or ordering.',
     quirks: ['The Xbox Wireless adapter is different from ordinary Bluetooth and may need its own Windows support.', 'Test LT/RT as analog inputs instead of only checking whether they click.'],
-    adapterSlugs: ['bluetooth-to-usb-gamepad-adapter', 'usb-to-retro-console-adapter'],
     testHref: '/xbox-controller-test/',
   },
   {
@@ -61,7 +58,6 @@ export const CONTROLLERS: ControllerProfile[] = [
     outputs: ['Rumble may be available', 'Motion and NFC are outside this tester'],
     browserMapping: 'Some browsers and games normalize the Nintendo layout; others expose the physical button order. Use the live button matrix to verify it.',
     quirks: ['The A/B and X/Y labels can feel reversed when a browser or game uses an Xbox-style logical mapping.', 'Bluetooth support can differ between browsers.'],
-    adapterSlugs: ['bluetooth-to-usb-gamepad-adapter', 'usb-to-gamecube-adapter'],
     testHref: '/switch-controller-test/',
   },
   {
@@ -77,7 +73,6 @@ export const CONTROLLERS: ControllerProfile[] = [
     outputs: ['Rumble depends on the selected mode and connection'],
     browserMapping: 'Select the mode intended for the host before testing. XInput mode is usually the most predictable on Windows.',
     quirks: ['Changing modes can make the same physical controller appear as a different device.', 'Back buttons may not appear in the standard Gamepad API mapping.'],
-    adapterSlugs: ['bluetooth-to-usb-gamepad-adapter', 'usb-to-retro-console-adapter'],
     testHref: '/',
   },
   {
@@ -93,7 +88,6 @@ export const CONTROLLERS: ControllerProfile[] = [
     outputs: ['No vibration on the basic F310 model'],
     browserMapping: 'XInput mode generally provides the most familiar standard mapping. DirectInput mode may expose a different button order.',
     quirks: ['Move the physical X/D switch before opening a game or refreshing the tester.', 'A missing rumble actuator is normal for this model, not necessarily a browser failure.'],
-    adapterSlugs: ['usb-to-retro-console-adapter', 'usb-to-gamecube-adapter'],
     testHref: '/',
   },
   {
@@ -109,7 +103,6 @@ export const CONTROLLERS: ControllerProfile[] = [
     outputs: ['Usually no rumble guarantee'],
     browserMapping: 'Use the live matrix and raw API panel as the source of truth. Generic HID devices often expose physical indexes rather than console labels.',
     quirks: ['Some devices only appear after pressing a button.', 'A controller can be visible to Windows but hidden from the browser if another application has taken exclusive control.'],
-    adapterSlugs: ['usb-to-retro-console-adapter', 'usb-to-n64-adapter'],
     testHref: '/',
   },
 ];

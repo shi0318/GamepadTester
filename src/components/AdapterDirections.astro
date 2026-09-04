@@ -1,0 +1,27 @@
+---
+import { ADAPTERS } from '../data/adapter-library';
+
+// The homepage carries most of the site's internal link weight but previously linked only to the
+// /controller-adapters/ hub, so no adapter subpage had a path from it. These three get an
+// exact-match anchor straight from the strongest page on the site.
+const FEATURED_SLUGS = ['bluetooth-to-usb-gamepad-adapter', 'usb-to-gamecube-adapter', 'multi-console-controller-adapter'];
+const featured = FEATURED_SLUGS.flatMap((slug) => ADAPTERS.filter((adapter) => adapter.slug === slug));
+---
+
+<section class="related-tools shell" aria-labelledby="adapter-directions">
+  <div class="section-heading">
+    <div><span class="section-kicker">CONNECTION HELP</span><h2 id="adapter-directions">Popular adapter directions</h2></div>
+    <a class="text-link" href="/controller-adapters/">All adapter guides →</a>
+  </div>
+  <p class="section-intro direction-intro">If the tester shows nothing at all, the controller may need a protocol bridge rather than a repair. Each guide explains what the adapter converts, where the delay comes from and how to verify it here first.</p>
+  <div class="catalog-grid direction-grid">
+    {featured.map((adapter) => (
+      <article class="related-card">
+        <span>{adapter.category}</span>
+        <strong><a class="catalog-card-link" href={`/controller-adapters/${adapter.slug}/`}>{adapter.anchor}</a></strong>
+        <small>{adapter.summary}</small>
+        <em>Read the guide →</em>
+      </article>
+    ))}
+  </div>
+</section>
