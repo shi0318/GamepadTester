@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('..', import.meta.url));
 
 test('Astro routes and shared components exist', () => {
-  for (const file of ['astro.config.mjs', 'public/gamepad-tester-logo.svg', 'public/gamepad-tester-favicon.svg', 'src/layouts/BaseLayout.astro', 'src/components/GamepadBench.astro', 'src/components/AdapterDirections.astro', 'src/scripts/gamepad-tester.js', 'src/data/controller-library.ts', 'src/data/adapter-library.ts', 'src/components/ControllerCard.astro', 'src/components/AdapterCard.astro', 'src/pages/index.astro', 'src/pages/404.astro', 'src/pages/about.astro', 'src/pages/tools/index.astro', 'src/pages/controllers/index.astro', 'src/pages/controllers/[slug].astro', 'src/pages/controller-adapters/index.astro', 'src/pages/controller-adapters/[slug].astro', 'src/pages/stick-drift-test/index.astro', 'src/pages/gamepad-calibration/index.astro', 'src/pages/button-test/index.astro', 'src/pages/vibration-test/index.astro', 'src/pages/ps5-controller-test/index.astro', 'src/pages/xbox-controller-test/index.astro', 'src/pages/switch-controller-test/index.astro', 'src/pages/gamepad-not-detected/index.astro']) assert.equal(fs.existsSync(path.join(root, file)), true, file);
+  for (const file of ['astro.config.mjs', 'public/gamepad-tester-logo.svg', 'public/gamepad-tester-favicon.svg', 'src/layouts/BaseLayout.astro', 'src/components/GamepadBench.astro', 'src/components/AdapterDirections.astro', 'src/scripts/gamepad-tester.js', 'src/scripts/input-diagnostics.js', 'src/data/controller-library.ts', 'src/data/adapter-library.ts', 'src/components/ControllerCard.astro', 'src/components/AdapterCard.astro', 'src/pages/index.astro', 'src/pages/404.astro', 'src/pages/about.astro', 'src/pages/tools/index.astro', 'src/pages/controllers/index.astro', 'src/pages/controllers/[slug].astro', 'src/pages/controller-adapters/index.astro', 'src/pages/controller-adapters/[slug].astro', 'src/pages/stick-drift-test/index.astro', 'src/pages/gamepad-calibration/index.astro', 'src/pages/button-test/index.astro', 'src/pages/vibration-test/index.astro', 'src/pages/ps5-controller-test/index.astro', 'src/pages/xbox-controller-test/index.astro', 'src/pages/switch-controller-test/index.astro', 'src/pages/gamepad-not-detected/index.astro', 'src/pages/keyboard-latency-test/index.astro', 'src/pages/mouse-dpi-test/index.astro']) assert.equal(fs.existsSync(path.join(root, file)), true, file);
 });
 
 test('tool page contains static SEO metadata and Gamepad API hook', () => {
@@ -149,4 +149,27 @@ test('the about page carries the read-only trust angle', () => {
   const page = fs.readFileSync(path.join(root, 'src/pages/about.astro'), 'utf8');
   assert.match(page, /Why we never write to your controller/);
   assert.match(page, /faqs=\{faqs\}/);
+});
+
+test('tools hub groups controller, keyboard and mouse diagnostics', () => {
+  const tools = fs.readFileSync(path.join(root, 'src/pages/tools/index.astro'), 'utf8');
+  const site = fs.readFileSync(path.join(root, 'src/data/site.ts'), 'utf8');
+  const homepage = fs.readFileSync(path.join(root, 'src/pages/index.astro'), 'utf8');
+  assert.match(tools, /TOOL_CATEGORIES/);
+  assert.match(site, /\/keyboard-latency-test\//);
+  assert.match(site, /\/mouse-dpi-test\//);
+  assert.match(homepage, /<h1>Gamepad Tester Online<\/h1>/);
+});
+
+test('keyboard latency and mouse DPI pages keep local-only diagnostics', () => {
+  const keyboard = fs.readFileSync(path.join(root, 'src/pages/keyboard-latency-test/index.astro'), 'utf8');
+  const mouse = fs.readFileSync(path.join(root, 'src/pages/mouse-dpi-test/index.astro'), 'utf8');
+  const script = fs.readFileSync(path.join(root, 'src/scripts/input-diagnostics.js'), 'utf8');
+  assert.match(keyboard, /<h1>Keyboard Latency Test<\/h1>/);
+  assert.match(keyboard, /title="Keyboard Latency Test/);
+  assert.match(mouse, /<h1>Mouse DPI Test<\/h1>/);
+  assert.match(mouse, /title="Mouse DPI Test/);
+  assert.match(script, /keydown/);
+  assert.match(script, /pixels \/ inches|travel \/ inches/);
+  assert.doesNotMatch(mouse, /mouse polling rate test/i);
 });

@@ -12,16 +12,26 @@ export const NAVIGATION = [
   { href: '/tools/', label: 'All tools' },
 ];
 
+export type ToolCategory = 'controller' | 'keyboard' | 'mouse';
+
 export const TOOL_PAGES = [
-  { href: '/stick-drift-test/', label: 'Joystick drift test', kicker: 'Analog diagnostics', description: 'Check joystick center offset, deadzone, jitter and unwanted movement.' },
-  { href: '/gamepad-calibration/', label: 'Gamepad calibration', kicker: 'Analog diagnostics', description: 'Set a browser-side center reference and check stick range without changing controller firmware.' },
-  { href: '/button-test/', label: 'Button test', kicker: 'Input diagnostics', description: 'Check every button, D-pad direction, bumper and trigger response.' },
-  { href: '/vibration-test/', label: 'Vibration test', kicker: 'Haptic diagnostics', description: 'Test supported light, heavy, burst and pulse rumble patterns.' },
-  { href: '/trigger-test/', label: 'Trigger test', kicker: 'Analog diagnostics', description: 'Inspect the full 0–1 range and pressure response of LT and RT.' },
-  { href: '/polling-rate-test/', label: 'Polling rate test', kicker: 'Performance diagnostics', description: 'Estimate the browser sample rate for wired and wireless input.' },
-  { href: '/ps5-controller-test/', label: 'PS5 controller test', kicker: 'Device test', description: 'Test DualSense buttons, sticks, triggers and supported rumble.' },
-  { href: '/xbox-controller-test/', label: 'Xbox controller test', kicker: 'Device test', description: 'Test Xbox and XInput-style controllers in your browser.' },
-  { href: '/switch-controller-test/', label: 'Switch controller test', kicker: 'Device test', description: 'Check Switch Pro, Joy-Con and compatible Bluetooth controllers.' },
+  { href: '/stick-drift-test/', label: 'Joystick drift test', kicker: 'Analog diagnostics', category: 'controller' as const, description: 'Check joystick center offset, deadzone, jitter and unwanted movement.' },
+  { href: '/gamepad-calibration/', label: 'Gamepad calibration', kicker: 'Analog diagnostics', category: 'controller' as const, description: 'Set a browser-side center reference and check stick range without changing controller firmware.' },
+  { href: '/button-test/', label: 'Button test', kicker: 'Input diagnostics', category: 'controller' as const, description: 'Check every button, D-pad direction, bumper and trigger response.' },
+  { href: '/vibration-test/', label: 'Vibration test', kicker: 'Haptic diagnostics', category: 'controller' as const, description: 'Test supported light, heavy, burst and pulse rumble patterns.' },
+  { href: '/trigger-test/', label: 'Trigger test', kicker: 'Analog diagnostics', category: 'controller' as const, description: 'Inspect the full 0–1 range and pressure response of LT and RT.' },
+  { href: '/polling-rate-test/', label: 'Polling rate test', kicker: 'Performance diagnostics', category: 'controller' as const, description: 'Estimate the browser sample rate for wired and wireless input.' },
+  { href: '/ps5-controller-test/', label: 'PS5 controller test', kicker: 'Device test', category: 'controller' as const, description: 'Test DualSense buttons, sticks, triggers and supported rumble.' },
+  { href: '/xbox-controller-test/', label: 'Xbox controller test', kicker: 'Device test', category: 'controller' as const, description: 'Test Xbox and XInput-style controllers in your browser.' },
+  { href: '/switch-controller-test/', label: 'Switch controller test', kicker: 'Device test', category: 'controller' as const, description: 'Check Switch Pro, Joy-Con and compatible Bluetooth controllers.' },
+  { href: '/keyboard-latency-test/', label: 'Keyboard latency test', kicker: 'Keyboard diagnostics', category: 'keyboard' as const, description: 'Measure the interval between a key press and the browser keydown event.' },
+  { href: '/mouse-dpi-test/', label: 'Mouse DPI test', kicker: 'Mouse diagnostics', category: 'mouse' as const, description: 'Estimate mouse DPI from a measured on-screen travel distance in your browser.' },
+];
+
+export const TOOL_CATEGORIES: { id: ToolCategory; label: string; kicker: string; description: string }[] = [
+  { id: 'controller', label: 'Controllers', kicker: 'Gamepad diagnostics', description: 'Button, stick, trigger, rumble and device tests for USB and Bluetooth controllers.' },
+  { id: 'keyboard', label: 'Keyboards', kicker: 'Keyboard diagnostics', description: 'Browser-side keyboard latency checks that stay on this machine.' },
+  { id: 'mouse', label: 'Mice', kicker: 'Mouse diagnostics', description: 'Pointer travel and DPI estimates from local mouse movement.' },
 ];
 
 export const CONTROLLER_LIBRARY_LINKS = [
@@ -41,6 +51,8 @@ const STANDALONE_LABELS: Record<string, string> = {
   '/gamepad-not-detected/': 'Controller not detected',
   '/about/': 'About',
   '/privacy-policy/': 'Privacy policy',
+  '/keyboard-latency-test/': 'Keyboard latency test',
+  '/mouse-dpi-test/': 'Mouse DPI test',
 };
 
 /** Breadcrumb trail for a path, excluding the implicit Home entry. */

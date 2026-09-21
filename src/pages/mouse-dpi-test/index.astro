@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const faq = [
+  { question: 'How does a mouse DPI test work in a browser?', answer: 'You enter the physical distance you moved the mouse, then move it that far in a straight line. The page counts CSS pixels traveled and estimates DPI as pixels divided by inches.' },
+  { question: 'Is this as accurate as a manufacturer DPI rating?', answer: 'No. Windows pointer speed, browser zoom, display scaling and a crooked swipe all change the estimate. Treat the number as a comparison tool for the same machine, not a factory specification.' },
+  { question: 'What is a good mouse DPI for games?', answer: 'There is no universal answer. Many desktop players keep a lower DPI and a larger mousepad, while others raise DPI for limited desk space. Use this mouse DPI test to confirm the setting you already chose.' },
+  { question: 'Does this test mouse polling rate?', answer: 'No. This page estimates DPI from travel distance. Controller polling belongs on the existing gamepad polling rate test, and a dedicated mouse polling page is not part of this toolkit.' },
+];
+---
+
+<BaseLayout title="Mouse DPI Test – Estimate Pointer DPI in Your Browser" description="Free mouse DPI test online. Move your mouse a measured distance to estimate DPI from on-screen pixels, then compare settings without installing software." canonicalPath="/mouse-dpi-test/" faqs={faq}>
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">MOUSE DIAGNOSTIC</span><h1>Mouse DPI Test</h1><p class="lede">Estimate mouse DPI from a measured travel distance. The calculation stays in your browser and never writes to the device.</p><a class="primary-button" href="#tester">Run this test <span>→</span></a></div></section>
+  <div class="tool-wrap">
+    <section class="game-section game-section-compact" id="tester" data-input-tool="mouse-dpi" aria-labelledby="mouse-heading">
+      <div class="game-heading-row">
+        <div>
+          <p class="eyebrow">LIVE MOUSE DIAGNOSTICS</p>
+          <h2 id="mouse-heading">Measure a straight swipe</h2>
+          <p class="mode-label">Pixels divided by inches</p>
+        </div>
+        <button class="reset-button" id="mouse-reset" type="button">Reset test</button>
+      </div>
+      <div class="connection-banner">
+        <span class="banner-icon" aria-hidden="true">◎</span>
+        <div>
+          <strong>Mark a real-world distance first</strong>
+          <p>Use a ruler on the mousepad, enter that length, then click Start and move the mouse that far in one direction.</p>
+        </div>
+        <span class="banner-status" id="mouse-status">WAITING</span>
+      </div>
+      <div class="circle-controls">
+        <label class="controller-picker-label" for="mouse-inches">Travel distance in inches</label>
+        <input id="mouse-inches" type="number" min="1" max="24" step="0.1" value="4" aria-label="Travel distance in inches" />
+        <button class="text-button" id="mouse-start" type="button">Start swipe</button>
+      </div>
+      <div class="health-grid">
+        <div><span>Pixels traveled</span><strong id="mouse-pixels">0</strong></div>
+        <div><span>Distance</span><strong id="mouse-distance">4.0 in</strong></div>
+        <div><span>Estimated DPI</span><strong id="mouse-dpi">—</strong></div>
+        <div><span>Samples</span><strong id="mouse-count">0</strong></div>
+      </div>
+      <p class="panel-help" id="mouse-help">Click Start swipe, then move the mouse the measured distance without lifting it. Click Stop when you reach the mark.</p>
+      <p class="tester-disclaimer">This mouse DPI test estimates counts per inch from CSS pixels. Operating-system pointer acceleration, display scaling and zoom can shift the result. Compare sessions on the same computer.</p>
+    </section>
+  </div>
+  <section class="subpage-content shell">
+    <article class="info-card">
+      <span class="panel-label">WHAT IT CHECKS</span>
+      <h2>Travel distance, not sensor firmware</h2>
+      <p>A mouse DPI test answers a practical question: how many on-screen pixels appear when the mouse moves a known physical distance. The page does not read the sensor EEPROM or change Windows pointer speed.</p>
+      <ul>
+        <li>Measured swipe length in inches</li>
+        <li>CSS-pixel travel during the swipe</li>
+        <li>Estimated DPI from pixels ÷ inches</li>
+      </ul>
+    </article>
+    <article class="info-card">
+      <span class="panel-label">HOW TO GET A CLEAN RESULT</span>
+      <h2>Keep the swipe honest</h2>
+      <p>Mark 4 inches on a mousepad, disable extra pointer acceleration if you can, and keep browser zoom at 100%. Repeat the swipe two or three times and look at the cluster, not one outlier.</p>
+      <ul>
+        <li>Use a ruler or a printed inch mark.</li>
+        <li>Move in a straight line; do not lift the mouse.</li>
+        <li>Keep the same Windows pointer speed between comparisons.</li>
+        <li>Do not treat the estimate as a factory DPI rating.</li>
+      </ul>
+    </article>
+    <div class="tool-callout"><strong>Privacy by design:</strong> pointer movement is processed locally. No mouse identifier is uploaded, and closing the tab ends the session.</div>
+  </section>
+  <section class="related-tools shell">
+    <div class="section-heading"><div><span class="section-kicker">KEEP TESTING</span><h2>Related tools</h2></div></div>
+    <div class="related-grid">
+      <article class="related-card"><span>Keyboard diagnostics</span><strong><a class="catalog-card-link" href="/keyboard-latency-test/">Keyboard latency test</a></strong><small>Measure keydown delay for a single press.</small><em>Open →</em></article>
+      <article class="related-card"><span>Analog diagnostics</span><strong><a class="catalog-card-link" href="/stick-drift-test/">Joystick drift test</a></strong><small>Check controller stick offset and jitter.</small><em>Open →</em></article>
+      <article class="related-card"><span>Input diagnostics</span><strong><a class="catalog-card-link" href="/button-test/">Button test</a></strong><small>Check every controller button and D-pad input.</small><em>Open →</em></article>
+      <article class="related-card"><span>Toolbox</span><strong><a class="catalog-card-link" href="/tools/">All tools</a></strong><small>Return to controller, keyboard and mouse diagnostics.</small><em>Open →</em></article>
+    </div>
+  </section>
+  <section class="faq-section shell">
+    <div class="section-heading"><div><span class="section-kicker">FAQ</span><h2>Questions about this test</h2></div></div>
+    <div class="faq-grid">{faq.map((item, index) => <details open={index === 0}><summary>{item.question}<span>+</span></summary><p>{item.answer}</p></details>)}</div>
+  </section>
+  <script>import '../../scripts/input-diagnostics.js';</script>
+</BaseLayout>

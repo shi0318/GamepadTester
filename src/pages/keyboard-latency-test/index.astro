@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const faq = [
+  { question: 'What does a keyboard latency test measure?', answer: 'This page records the interval between the moment you press a key and the moment the browser fires a keydown event. It is a browser-side delay, not a laboratory measurement of switch travel or USB polling.' },
+  { question: 'Is this the same as a keyboard tester?', answer: 'No. A keyboard tester usually lights up every physical key. This keyboard latency test focuses on response delay for a single press so you can compare setups without turning the page into a full-matrix checker.' },
+  { question: 'What is a good keyboard latency result?', answer: 'There is no official threshold. Wired mechanical boards on a quiet desktop Chrome session often land in a tighter cluster than Bluetooth laptop keyboards. Compare several presses on the same machine before changing hardware.' },
+  { question: 'Why do results jump around?', answer: 'Display refresh, browser scheduling, USB hubs, Bluetooth, and background CPU work all affect when the event reaches JavaScript. Close extra tabs and keep the same connection when comparing sessions.' },
+];
+---
+
+<BaseLayout title="Keyboard Latency Test – Measure Keydown Delay in Your Browser" description="Free keyboard latency test online. Press a key to measure the delay between the physical press and the browser keydown event, then compare wired and wireless results." canonicalPath="/keyboard-latency-test/" faqs={faq}>
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">KEYBOARD DIAGNOSTIC</span><h1>Keyboard Latency Test</h1><p class="lede">Measure how long it takes a key press to reach your browser. The result is a local keydown delay, not a hardware certification.</p><a class="primary-button" href="#tester">Run this test <span>→</span></a></div></section>
+  <div class="tool-wrap">
+    <section class="game-section game-section-compact" id="tester" data-input-tool="keyboard-latency" aria-labelledby="keyboard-heading">
+      <div class="game-heading-row">
+        <div>
+          <p class="eyebrow">LIVE KEYBOARD DIAGNOSTICS</p>
+          <h2 id="keyboard-heading">Press any key</h2>
+          <p class="mode-label">Browser keydown delay</p>
+        </div>
+        <button class="reset-button" id="keyboard-reset" type="button">Reset test</button>
+      </div>
+      <div class="connection-banner">
+        <span class="banner-icon" aria-hidden="true">⌁</span>
+        <div>
+          <strong>Focus this page, then tap one key</strong>
+          <p>The first press after the ready prompt starts the sample. Hold keys are ignored so auto-repeat does not inflate the count.</p>
+        </div>
+        <span class="banner-status" id="keyboard-status">WAITING</span>
+      </div>
+      <div class="health-grid">
+        <div><span>Last delay</span><strong id="keyboard-last">—</strong></div>
+        <div><span>Median</span><strong id="keyboard-median">—</strong></div>
+        <div><span>Average</span><strong id="keyboard-average">—</strong></div>
+        <div><span>Samples</span><strong id="keyboard-count">0</strong></div>
+      </div>
+      <p class="panel-help" id="keyboard-help">Click inside the tester, wait for Ready, then press a key. The page records requestAnimationFrame-aligned delay from the previous frame to the keydown event.</p>
+      <ol class="raw-preview" id="keyboard-samples" aria-label="Recent keyboard latency samples"></ol>
+      <p class="tester-disclaimer">This keyboard latency test reports browser event timing. It cannot measure switch debounce, firmware scan rate or true USB polling. Compare like-for-like sessions on the same machine.</p>
+    </section>
+  </div>
+  <section class="subpage-content shell">
+    <article class="info-card">
+      <span class="panel-label">WHAT IT CHECKS</span>
+      <h2>Keydown delay, not a full keyboard map</h2>
+      <p>People searching for a keyboard latency test usually want to know whether a board feels late in games or typing. This page isolates one number: the time from the previous animation frame to the keydown event after you press a key.</p>
+      <ul>
+        <li>Single-key samples with auto-repeat ignored</li>
+        <li>Last, median and average delay in milliseconds</li>
+        <li>Local-only results that never leave the tab</li>
+      </ul>
+    </article>
+    <article class="info-card">
+      <span class="panel-label">HOW TO GET A CLEAN RESULT</span>
+      <h2>Keep the comparison honest</h2>
+      <p>Use the same browser, USB or Bluetooth path, and a quiet desktop session. Ten presses on one setup tell you more than one unusually fast sample.</p>
+      <ul>
+        <li>Click the tester so the page has keyboard focus.</li>
+        <li>Press one key at a time after the ready prompt.</li>
+        <li>Compare a wired dongle against Bluetooth on the same computer.</li>
+        <li>Do not treat this as a replacement for a hardware analyzer.</li>
+      </ul>
+    </article>
+    <div class="tool-callout"><strong>Privacy by design:</strong> key events stay in your browser. Nothing is uploaded, and closing the tab clears the samples.</div>
+  </section>
+  <section class="related-tools shell">
+    <div class="section-heading"><div><span class="section-kicker">KEEP TESTING</span><h2>Related tools</h2></div></div>
+    <div class="related-grid">
+      <article class="related-card"><span>Mouse diagnostics</span><strong><a class="catalog-card-link" href="/mouse-dpi-test/">Mouse DPI test</a></strong><small>Estimate pointer DPI from a measured travel distance.</small><em>Open →</em></article>
+      <article class="related-card"><span>Input diagnostics</span><strong><a class="catalog-card-link" href="/button-test/">Button test</a></strong><small>Check every controller button and D-pad input.</small><em>Open →</em></article>
+      <article class="related-card"><span>Performance diagnostics</span><strong><a class="catalog-card-link" href="/polling-rate-test/">Polling rate test</a></strong><small>Estimate how often the browser samples a gamepad.</small><em>Open →</em></article>
+      <article class="related-card"><span>Toolbox</span><strong><a class="catalog-card-link" href="/tools/">All tools</a></strong><small>Return to controller, keyboard and mouse diagnostics.</small><em>Open →</em></article>
+    </div>
+  </section>
+  <section class="faq-section shell">
+    <div class="section-heading"><div><span class="section-kicker">FAQ</span><h2>Questions about this test</h2></div></div>
+    <div class="faq-grid">{faq.map((item, index) => <details open={index === 0}><summary>{item.question}<span>+</span></summary><p>{item.answer}</p></details>)}</div>
+  </section>
+  <script>import '../../scripts/input-diagnostics.js';</script>
+</BaseLayout>
