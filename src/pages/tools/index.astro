@@ -6,7 +6,7 @@ const itemList = TOOL_PAGES.map((item) => ({ name: item.label, path: item.href, 
 ---
 
 <BaseLayout title="Gamepad Testing Tools – Button, Drift, Keyboard Latency & Mouse DPI" description="Browse free browser diagnostics for controllers, keyboard latency and mouse DPI. Start with the full gamepad tester or open a focused input test." itemList={itemList} itemListName="Gamepad testing tools">
-  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">THE COMPLETE TOOLBOX</span><h1>Every test your controller needs.</h1><p class="lede">Start with the full tester or choose a focused diagnostic for a specific button, stick, haptic, keyboard or mouse question.</p></div></section>
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">TOOLS</span><h1>All testing tools</h1><p class="lede">A tool index for controllers, keyboards and mice. Start with the full tester or open a focused diagnostic.</p></div></section>
   {TOOL_CATEGORIES.map((category) => {
     const tools = TOOL_PAGES.filter((item) => item.category === category.id);
     return (
