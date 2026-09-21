@@ -141,3 +141,102 @@ function initMouseDpi() {
 
 initKeyboardLatency();
 initMouseDpi();
+initKeyboardMap();
+initMouseButtons();
+initMouseDouble();
+
+function initKeyboardMap() {
+  const root = $('[data-input-tool="keyboard-map"]');
+  if (!root) return;
+  const pressed = new Set();
+  const down = (event) => {
+    if (event.repeat) return;
+    const cell = root.querySelector('[data-key-code="' + event.code + '"]');
+    if (!cell) return;
+    event.preventDefault();
+    pressed.add(event.code);
+    cell.classList.add('keyboard-key-active');
+    $('#keyboard-map-last').textContent = 'Last key: ' + event.code;
+    $('#keyboard-map-count').textContent = pressed.size + ' KEYS';
+  };
+  const up = (event) => {
+    const cell = root.querySelector('[data-key-code="' + event.code + '"]');
+    if (cell) cell.classList.remove('keyboard-key-active');
+  };
+  window.addEventListener('keydown', down);
+  window.addEventListener('keyup', up);
+  $('#keyboard-map-reset')?.addEventListener('click', () => {
+    pressed.clear();
+    root.querySelectorAll('.keyboard-key-active').forEach((cell) => cell.classList.remove('keyboard-key-active'));
+    $('#keyboard-map-last').textContent = 'Waiting for a key';
+    $('#keyboard-map-count').textContent = '0 KEYS';
+  });
+}
+
+function initMouseButtons() {
+  const root = $('[data-input-tool="mouse-buttons"]');
+  if (!root) return;
+  const names = ['Left', 'Middle', 'Right', 'Back', 'Forward'];
+  const counts = [0, 0, 0, 0, 0];
+  const render = () => {
+    counts.forEach((count, index) => {
+      const cell = root.querySelector('[data-mouse-button="' + index + '"]');
+      if (!cell) return;
+      cell.querySelector('strong').textContent = String(count);
+      cell.classList.toggle('mouse-button-cell-active', count > 0);
+    });
+  };
+  root.addEventListener('pointerdown', (event) => {
+    if (event.button > 4) return;
+    event.preventDefault();
+    counts[event.button] += 1;
+    $('#mouse-button-last').textContent = 'Last button: ' + (names[event.button] || event.button);
+    $('#mouse-button-status').textContent = 'LIVE';
+    render();
+  });
+  root.addEventListener('contextmenu', (event) => event.preventDefault());
+  $('#mouse-button-reset')?.addEventListener('click', () => {
+    counts.fill(0);
+    $('#mouse-button-last').textContent = 'Waiting for a click';
+    $('#mouse-button-status').textContent = 'WAITING';
+    render();
+  });
+  render();
+}
+
+function initMouseDouble() {
+  const root = $('[data-input-tool="mouse-double"]');
+  if (!root) return;
+  let clicks = 0;
+  let flags = 0;
+  let lastAt = 0;
+  root.addEventListener('pointerdown', (event) => {
+    if (event.button !== 0) return;
+    event.preventDefault();
+    const now = performance.now();
+    const gap = lastAt ? now - lastAt : null;
+    clicks += 1;
+    if (gap != null && gap < 80) {
+      flags += 1;
+      $('#mouse-double-verdict').textContent = 'Double fire detected';
+      $('#mouse-double-status').textContent = 'FAULT';
+    } else {
+      $('#mouse-double-verdict').textContent = 'Single click recorded';
+      $('#mouse-double-status').textContent = 'OK';
+    }
+    $('#mouse-double-clicks').textContent = String(clicks);
+    $('#mouse-double-flags').textContent = String(flags);
+    $('#mouse-double-gap').textContent = gap == null ? '—' : Math.round(gap) + ' ms';
+    lastAt = now;
+  });
+  $('#mouse-double-reset')?.addEventListener('click', () => {
+    clicks = 0;
+    flags = 0;
+    lastAt = 0;
+    $('#mouse-double-verdict').textContent = 'Waiting for a single click';
+    $('#mouse-double-status').textContent = 'WAITING';
+    $('#mouse-double-clicks').textContent = '0';
+    $('#mouse-double-flags').textContent = '0';
+    $('#mouse-double-gap').textContent = '—';
+  });
+}

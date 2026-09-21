@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const faq = [
+  { question: 'Is this a full keyboard tester?', answer: 'It lights up standard letter, number, modifier and navigation keys from browser KeyboardEvent.code values. It is not a firmware NKRO proof and cannot remap keys.' },
+  { question: 'What is ghosting?', answer: 'Ghosting is when extra keys appear pressed, or expected keys do not register, because the keyboard matrix cannot report that combination. Hold several keys and watch which cells stay dark.' },
+  { question: 'Does this measure keyboard latency?', answer: 'No. Use the keyboard latency test for keydown delay. This page is a live key map.' },
+];
+
+const rows = [
+  ['Escape', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'],
+  ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
+  ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash'],
+  ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'],
+  ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
+  ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'MetaRight', 'ContextMenu', 'ControlRight'],
+  ['ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight'],
+];
+const labels = {
+  Escape: 'Esc', Backquote: '`', Minus: '-', Equal: '=', Backspace: 'Back', BracketLeft: '[', BracketRight: ']', Backslash: '\\', CapsLock: 'Caps', Semicolon: ';', Quote: "'", ShiftLeft: 'Shift', ShiftRight: 'Shift', ControlLeft: 'Ctrl', ControlRight: 'Ctrl', MetaLeft: 'Win', MetaRight: 'Win', AltLeft: 'Alt', AltRight: 'Alt', ContextMenu: 'Menu', Comma: ',', Period: '.', Slash: '/', Space: 'Space', ArrowLeft: '←', ArrowUp: '↑', ArrowDown: '↓', ArrowRight: '→',
+};
+---
+
+<BaseLayout title="Keyboard Tester Online – Check Every Key in Your Browser" description="Free keyboard tester online. Press keys to light up the map, check ghosting and rollover, and confirm whether a key is sending a browser event." canonicalPath="/keyboard-test/" faqs={faq}>
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">KEYBOARD DIAGNOSTIC</span><h1>Keyboard Tester</h1><p class="lede">Press any key to see whether the browser receives it. This is a live key map, not a latency lab and not a firmware tool.</p><a class="primary-button" href="#tester">Run this test <span>→</span></a></div></section>
+  <div class="tool-wrap">
+    <section class="game-section game-section-compact" id="tester" data-input-tool="keyboard-map" aria-labelledby="keyboard-map-heading">
+      <div class="game-heading-row">
+        <div>
+          <p class="eyebrow">LIVE KEYBOARD MAP</p>
+          <h2 id="keyboard-map-heading">Press keys on this page</h2>
+          <p class="mode-label">Browser KeyboardEvent.code</p>
+        </div>
+        <button class="reset-button" id="keyboard-map-reset" type="button">Reset map</button>
+      </div>
+      <div class="connection-banner">
+        <span class="banner-icon" aria-hidden="true">⌨</span>
+        <div>
+          <strong id="keyboard-map-last">Waiting for a key</strong>
+          <p>Click the tester, then hold several keys to look for missing or extra lights. That is the practical ghosting check.</p>
+        </div>
+        <span class="banner-status" id="keyboard-map-count">0 KEYS</span>
+      </div>
+      <div class="keyboard-board" aria-label="Keyboard tester map">
+        {rows.map((row) => (
+          <div class="keyboard-row">
+            {row.map((code) => (
+              <span class:list={['keyboard-key', (code === 'Space' || code === 'Backspace' || code === 'ShiftLeft' || code === 'ShiftRight' || code === 'Enter') && 'keyboard-key-wide']} data-key-code={code}>{labels[code] || code.replace('Key', '').replace('Digit', '')}</span>
+            ))}
+          </div>
+        ))}
+      </div>
+      <p class="tester-disclaimer">This keyboard tester reports keys the browser can see. Laptop Fn layers, some media keys, and hardware NKRO limits may never appear. Latency belongs on the keyboard latency test.</p>
+    </section>
+  </div>
+  <section class="subpage-content shell">
+    <article class="info-card">
+      <span class="panel-label">WHAT IT CHECKS</span>
+      <h2>A key map, not a speed score</h2>
+      <p>People searching for a keyboard tester or keyboard checker want to see whether a key is dead. This page lights the matching cell when KeyboardEvent.code fires, then clears it on keyup.</p>
+      <ul>
+        <li>Letter, number, modifier and arrow keys</li>
+        <li>Hold several keys to watch rollover and ghosting</li>
+        <li>Local-only events that never leave the tab</li>
+      </ul>
+    </article>
+    <article class="info-card">
+      <span class="panel-label">HOW TO GET A CLEAN RESULT</span>
+      <h2>Keep the comparison honest</h2>
+      <p>Click inside the tester so the page has focus. Browser shortcuts can steal keys such as Ctrl and F5. Compare the same board over USB and Bluetooth if a key is missing.</p>
+      <ul>
+        <li>Do not treat a dark cell as proof the switch is dead until a second browser agrees.</li>
+        <li>Use the <a class="inline-link" href="/keyboard-latency-test/">keyboard latency test</a> for delay, not this map.</li>
+        <li>Mouse button faults belong on the mouse button test.</li>
+      </ul>
+    </article>
+    <div class="tool-callout"><strong>Privacy by design:</strong> key events stay in your browser. Closing the tab clears the map.</div>
+  </section>
+  <section class="related-tools shell">
+    <div class="section-heading"><div><span class="section-kicker">KEEP TESTING</span><h2>Related tools</h2></div></div>
+    <div class="related-grid">
+      <article class="related-card"><span>Keyboard diagnostics</span><strong><a class="catalog-card-link" href="/keyboard-latency-test/">Keyboard latency test</a></strong><small>Measure keydown delay for a single press.</small><em>Open →</em></article>
+      <article class="related-card"><span>Mouse diagnostics</span><strong><a class="catalog-card-link" href="/mouse-button-test/">Mouse button test</a></strong><small>Check left, right, middle and extra buttons.</small><em>Open →</em></article>
+      <article class="related-card"><span>Mouse diagnostics</span><strong><a class="catalog-card-link" href="/mouse-double-click-test/">Mouse double click test</a></strong><small>See whether one click becomes two events.</small><em>Open →</em></article>
+      <article class="related-card"><span>Toolbox</span><strong><a class="catalog-card-link" href="/tools/">All tools</a></strong><small>Return to controller, keyboard and mouse diagnostics.</small><em>Open →</em></article>
+    </div>
+  </section>
+  <section class="faq-section shell">
+    <div class="section-heading"><div><span class="section-kicker">FAQ</span><h2>Questions about this test</h2></div></div>
+    <div class="faq-grid">{faq.map((item, index) => <details open={index === 0}><summary>{item.question}<span>+</span></summary><p>{item.answer}</p></details>)}</div>
+  </section>
+  <script>import '../../scripts/input-diagnostics.js';</script>
+</BaseLayout>

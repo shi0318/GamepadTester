@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const faq = [
+  { question: 'What is a mouse double click test?', answer: 'It watches how many click events arrive after you intend one press. A worn switch can fire twice close together. That is a device fault, not click speed.' },
+  { question: 'Is this the same as a double click speed test?', answer: 'No. Double click speed is a hand-speed task. This page diagnoses a mouse that double-fires on its own. Hand-speed tests belong on click-speed-test.net.' },
+  { question: 'What counts as a double fire?', answer: 'Two click events on the same button within 80 milliseconds are flagged. That window is a practical browser heuristic, not a manufacturer spec.' },
+];
+---
+
+<BaseLayout title="Mouse Double Click Test – Catch a Switch That Fires Twice" description="Free mouse double click test online. Press once and see whether the browser records two click events from a worn or bouncing mouse switch." canonicalPath="/mouse-double-click-test/" faqs={faq}>
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">MOUSE DIAGNOSTIC</span><h1>Mouse Double Click Test</h1><p class="lede">Press the left button once. If the browser records two events too close together, the switch is bouncing — that is a device issue, not your click speed.</p><a class="primary-button" href="#tester">Run this test <span>→</span></a></div></section>
+  <div class="tool-wrap">
+    <section class="game-section game-section-compact" id="tester" data-input-tool="mouse-double" aria-labelledby="mouse-double-heading">
+      <div class="game-heading-row">
+        <div>
+          <p class="eyebrow">LIVE SWITCH CHECK</p>
+          <h2 id="mouse-double-heading">Click once on this surface</h2>
+          <p class="mode-label">Unintended double-fire detector</p>
+        </div>
+        <button class="reset-button" id="mouse-double-reset" type="button">Reset test</button>
+      </div>
+      <div class="connection-banner">
+        <span class="banner-icon" aria-hidden="true">◎</span>
+        <div>
+          <strong id="mouse-double-verdict">Waiting for a single click</strong>
+          <p>The page flags two events on the same button within 80 ms. Deliberate fast clicking is not the goal here.</p>
+        </div>
+        <span class="banner-status" id="mouse-double-status">WAITING</span>
+      </div>
+      <div class="health-grid">
+        <div><span>Clicks</span><strong id="mouse-double-clicks">0</strong></div>
+        <div><span>Double fires</span><strong id="mouse-double-flags">0</strong></div>
+        <div><span>Last gap</span><strong id="mouse-double-gap">—</strong></div>
+        <div><span>Threshold</span><strong>80 ms</strong></div>
+      </div>
+      <p class="tester-disclaimer">This mouse double click test diagnoses hardware bounce. It is not a double click speed score and not a CPS Test. Compare the same mouse in a second browser before replacing it.</p>
+    </section>
+  </div>
+  <section class="subpage-content shell">
+    <article class="info-card">
+      <span class="panel-label">WHAT IT CHECKS</span>
+      <h2>A bouncing switch, not hand speed</h2>
+      <p>A mouse double click test is for the “I clicked once and the desktop opened the file twice” problem. Keep jitter clicking and CPS scores on the click-speed site.</p>
+    </article>
+    <article class="info-card">
+      <span class="panel-label">WHAT TO OPEN NEXT</span>
+      <h2>Related device checks</h2>
+      <p>Confirm each button on the <a class="inline-link" href="/mouse-button-test/">mouse button test</a>, then estimate travel with the <a class="inline-link" href="/mouse-dpi-test/">mouse DPI test</a>.</p>
+    </article>
+    <div class="tool-callout"><strong>Privacy by design:</strong> click timing stays in your browser. Nothing is uploaded.</div>
+  </section>
+  <section class="related-tools shell">
+    <div class="section-heading"><div><span class="section-kicker">KEEP TESTING</span><h2>Related tools</h2></div></div>
+    <div class="related-grid">
+      <article class="related-card"><span>Mouse diagnostics</span><strong><a class="catalog-card-link" href="/mouse-button-test/">Mouse button test</a></strong><small>Check left, right, middle and extra buttons.</small><em>Open →</em></article>
+      <article class="related-card"><span>Mouse diagnostics</span><strong><a class="catalog-card-link" href="/mouse-dpi-test/">Mouse DPI test</a></strong><small>Estimate pointer DPI from a measured swipe.</small><em>Open →</em></article>
+      <article class="related-card"><span>Keyboard diagnostics</span><strong><a class="catalog-card-link" href="/keyboard-test/">Keyboard tester</a></strong><small>Light up every key the browser can see.</small><em>Open →</em></article>
+      <article class="related-card"><span>Toolbox</span><strong><a class="catalog-card-link" href="/tools/">All tools</a></strong><small>Return to controller, keyboard and mouse diagnostics.</small><em>Open →</em></article>
+    </div>
+  </section>
+  <section class="faq-section shell">
+    <div class="section-heading"><div><span class="section-kicker">FAQ</span><h2>Questions about this test</h2></div></div>
+    <div class="faq-grid">{faq.map((item, index) => <details open={index === 0}><summary>{item.question}<span>+</span></summary><p>{item.answer}</p></details>)}</div>
+  </section>
+  <script>import '../../scripts/input-diagnostics.js';</script>
+</BaseLayout>

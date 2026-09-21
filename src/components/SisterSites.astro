@@ -1,0 +1,23 @@
+---
+import { SITE, SISTER_SITES } from '../data/site';
+
+const others = SISTER_SITES.filter((item) => !item.href.includes(new URL(SITE.url).hostname));
+---
+
+<section class="sister-sites shell">
+  <div class="section-heading">
+    <div>
+      <span class="section-kicker">OTHER TOOL SITES</span>
+      <h2>More browser tests</h2>
+    </div>
+    <p class="section-intro">Independent tools on separate domains. Each site stays on one job.</p>
+  </div>
+  <div class="sister-grid">
+    {others.map((item) => (
+      <a class="sister-card" href={item.href} rel="noopener">
+        <strong>{item.name}</strong>
+        <span>{item.note}</span>
+      </a>
+    ))}
+  </div>
+</section>

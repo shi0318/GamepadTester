@@ -25,13 +25,16 @@ export const TOOL_PAGES = [
   { href: '/xbox-controller-test/', label: 'Xbox controller test', kicker: 'Device test', category: 'controller' as const, description: 'Test Xbox and XInput-style controllers in your browser.' },
   { href: '/switch-controller-test/', label: 'Switch controller test', kicker: 'Device test', category: 'controller' as const, description: 'Check Switch Pro, Joy-Con and compatible Bluetooth controllers.' },
   { href: '/keyboard-latency-test/', label: 'Keyboard latency test', kicker: 'Keyboard diagnostics', category: 'keyboard' as const, description: 'Measure the interval between a key press and the browser keydown event.' },
+  { href: '/keyboard-test/', label: 'Keyboard tester', kicker: 'Keyboard diagnostics', category: 'keyboard' as const, description: 'Light up every key, including ghosting and rollover checks, in the browser.' },
   { href: '/mouse-dpi-test/', label: 'Mouse DPI test', kicker: 'Mouse diagnostics', category: 'mouse' as const, description: 'Estimate mouse DPI from a measured on-screen travel distance in your browser.' },
+  { href: '/mouse-button-test/', label: 'Mouse button test', kicker: 'Mouse diagnostics', category: 'mouse' as const, description: 'Check left, right, middle and extra mouse buttons without installing software.' },
+  { href: '/mouse-double-click-test/', label: 'Mouse double click test', kicker: 'Mouse diagnostics', category: 'mouse' as const, description: 'See whether one physical click registers as two button events.' },
 ];
 
 export const TOOL_CATEGORIES: { id: ToolCategory; label: string; kicker: string; description: string }[] = [
   { id: 'controller', label: 'Controllers', kicker: 'Gamepad diagnostics', description: 'Button, stick, trigger, rumble and device tests for USB and Bluetooth controllers.' },
-  { id: 'keyboard', label: 'Keyboards', kicker: 'Keyboard diagnostics', description: 'Browser-side keyboard latency checks that stay on this machine.' },
-  { id: 'mouse', label: 'Mice', kicker: 'Mouse diagnostics', description: 'Pointer travel and DPI estimates from local mouse movement.' },
+  { id: 'keyboard', label: 'Keyboards', kicker: 'Keyboard diagnostics', description: 'Keyboard tester and latency checks that stay on this machine.' },
+  { id: 'mouse', label: 'Mice', kicker: 'Mouse diagnostics', description: 'Button, double-click and DPI checks from local mouse movement.' },
 ];
 
 export const CONTROLLER_LIBRARY_LINKS = [
@@ -52,7 +55,10 @@ const STANDALONE_LABELS: Record<string, string> = {
   '/about/': 'About',
   '/privacy-policy/': 'Privacy policy',
   '/keyboard-latency-test/': 'Keyboard latency test',
+  '/keyboard-test/': 'Keyboard tester',
   '/mouse-dpi-test/': 'Mouse DPI test',
+  '/mouse-button-test/': 'Mouse button test',
+  '/mouse-double-click-test/': 'Mouse double click test',
 };
 
 /** Breadcrumb trail for a path, excluding the implicit Home entry. */
@@ -68,4 +74,9 @@ export const FAQS = [
   { question: 'Does this work with PS5, Xbox and Switch?', answer: 'Many modern Xbox, PlayStation, Switch Pro and generic USB or Bluetooth controllers expose standard inputs through the Gamepad API. The operating system must connect the controller first; this site cannot pair Bluetooth or install drivers.' },
   { question: 'Why does vibration not work?', answer: 'Rumble support depends on your browser, operating system, connection type and controller. Chrome or Edge on Windows typically provide the broadest support.' },
   { question: 'Can this prove that my controller is broken?', answer: 'No. The tester shows the signals exposed by your browser. It is useful for finding dead buttons, stick drift and missing rumble, but results can vary by browser, operating system, connection and driver.' },
+];
+
+export const SISTER_SITES = [
+  { href: 'https://click-speed-test.net/', name: 'CPS Test', note: 'Measure click speed in your browser.' },
+  { href: 'https://reactiontimetest.fun/', name: 'Reaction Time Test', note: 'A five-round visual reaction test.' },
 ];

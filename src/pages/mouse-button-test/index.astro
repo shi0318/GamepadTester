@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const faq = [
+  { question: 'Which mouse buttons can this test?', answer: 'The page listens for standard pointer buttons: left, middle, right, back and forward. Extra vendor buttons only appear if the browser exposes them as those codes.' },
+  { question: 'Is this the same as a mouse click tester for CPS?', answer: 'No. This mouse button test checks whether a button fires at all. Click speed belongs on the CPS Test site, not here.' },
+  { question: 'Why does the right-click menu appear?', answer: 'The test surface blocks the context menu so a right-button check can finish. Elsewhere on the page the browser menu still works.' },
+];
+---
+
+<BaseLayout title="Mouse Button Test – Check Left, Right and Extra Buttons" description="Free mouse button test online. Click left, right, middle, back and forward buttons to confirm the browser receives each press." canonicalPath="/mouse-button-test/" faqs={faq}>
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">MOUSE DIAGNOSTIC</span><h1>Mouse Button Test</h1><p class="lede">Press each mouse button on the test surface. The page reports which button the browser received, not how fast you can click.</p><a class="primary-button" href="#tester">Run this test <span>→</span></a></div></section>
+  <div class="tool-wrap">
+    <section class="game-section game-section-compact" id="tester" data-input-tool="mouse-buttons" aria-labelledby="mouse-button-heading">
+      <div class="game-heading-row">
+        <div>
+          <p class="eyebrow">LIVE MOUSE BUTTONS</p>
+          <h2 id="mouse-button-heading">Click inside this panel</h2>
+          <p class="mode-label">Pointer button map</p>
+        </div>
+        <button class="reset-button" id="mouse-button-reset" type="button">Reset test</button>
+      </div>
+      <div class="connection-banner">
+        <span class="banner-icon" aria-hidden="true">◎</span>
+        <div>
+          <strong id="mouse-button-last">Waiting for a click</strong>
+          <p>Left, middle, right, back and forward each have a cell. A dark cell after a press means the browser did not see that button.</p>
+        </div>
+        <span class="banner-status" id="mouse-button-status">WAITING</span>
+      </div>
+      <div class="mouse-button-grid" aria-label="Mouse button map">
+        <div class="mouse-button-cell" data-mouse-button="0"><span>Left</span><strong>0</strong></div>
+        <div class="mouse-button-cell" data-mouse-button="1"><span>Middle</span><strong>0</strong></div>
+        <div class="mouse-button-cell" data-mouse-button="2"><span>Right</span><strong>0</strong></div>
+        <div class="mouse-button-cell" data-mouse-button="3"><span>Back</span><strong>0</strong></div>
+        <div class="mouse-button-cell" data-mouse-button="4"><span>Forward</span><strong>0</strong></div>
+      </div>
+      <p class="tester-disclaimer">This mouse button test reports browser pointer events. A hardware double-click fault belongs on the mouse double click test. Click speed belongs on click-speed-test.net.</p>
+    </section>
+  </div>
+  <section class="subpage-content shell">
+    <article class="info-card">
+      <span class="panel-label">WHAT IT CHECKS</span>
+      <h2>Buttons, not DPI and not CPS</h2>
+      <p>A mouse button test answers whether left, right and extra buttons still fire. It does not estimate DPI and it does not count clicks per second.</p>
+      <ul>
+        <li>Left, middle and right buttons</li>
+        <li>Back and forward where the browser exposes them</li>
+        <li>Local-only counts that reset with the page</li>
+      </ul>
+    </article>
+    <article class="info-card">
+      <span class="panel-label">WHAT TO OPEN NEXT</span>
+      <h2>Keep device tests on this domain</h2>
+      <p>If one click becomes two events, open the <a class="inline-link" href="/mouse-double-click-test/">mouse double click test</a>. If you want travel distance, use the <a class="inline-link" href="/mouse-dpi-test/">mouse DPI test</a>. Hand speed stays on the CPS site.</p>
+    </article>
+    <div class="tool-callout"><strong>Privacy by design:</strong> pointer events stay in your browser. Nothing is uploaded.</div>
+  </section>
+  <section class="related-tools shell">
+    <div class="section-heading"><div><span class="section-kicker">KEEP TESTING</span><h2>Related tools</h2></div></div>
+    <div class="related-grid">
+      <article class="related-card"><span>Mouse diagnostics</span><strong><a class="catalog-card-link" href="/mouse-double-click-test/">Mouse double click test</a></strong><small>Catch a switch that fires twice.</small><em>Open →</em></article>
+      <article class="related-card"><span>Mouse diagnostics</span><strong><a class="catalog-card-link" href="/mouse-dpi-test/">Mouse DPI test</a></strong><small>Estimate pointer DPI from a measured swipe.</small><em>Open →</em></article>
+      <article class="related-card"><span>Keyboard diagnostics</span><strong><a class="catalog-card-link" href="/keyboard-test/">Keyboard tester</a></strong><small>Light up every key the browser can see.</small><em>Open →</em></article>
+      <article class="related-card"><span>Toolbox</span><strong><a class="catalog-card-link" href="/tools/">All tools</a></strong><small>Return to controller, keyboard and mouse diagnostics.</small><em>Open →</em></article>
+    </div>
+  </section>
+  <section class="faq-section shell">
+    <div class="section-heading"><div><span class="section-kicker">FAQ</span><h2>Questions about this test</h2></div></div>
+    <div class="faq-grid">{faq.map((item, index) => <details open={index === 0}><summary>{item.question}<span>+</span></summary><p>{item.answer}</p></details>)}</div>
+  </section>
+  <script>import '../../scripts/input-diagnostics.js';</script>
+</BaseLayout>
