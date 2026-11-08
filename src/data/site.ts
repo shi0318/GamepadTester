@@ -54,6 +54,8 @@ const STANDALONE_LABELS: Record<string, string> = {
   '/gamepad-not-detected/': 'Controller not detected',
   '/about/': 'About',
   '/privacy-policy/': 'Privacy policy',
+  '/terms/': 'Terms of use',
+  '/contact/': 'Contact',
   '/keyboard-latency-test/': 'Keyboard latency test',
   '/keyboard-test/': 'Keyboard tester',
   '/mouse-dpi-test/': 'Mouse DPI test',
@@ -76,7 +78,3 @@ export const FAQS = [
   { question: 'Can this prove that my controller is broken?', answer: 'No. The tester shows the signals exposed by your browser. It is useful for finding dead buttons, stick drift and missing rumble, but results can vary by browser, operating system, connection and driver.' },
 ];
 
-export const SISTER_SITES = [
-  { href: 'https://click-speed-test.net/', name: 'CPS Test', note: 'Measure click speed in your browser.' },
-  { href: 'https://reactiontimetest.fun/', name: 'Reaction Time Test', note: 'A five-round visual reaction test.' },
-];

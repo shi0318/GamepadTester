@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const faq = [
   { question: 'Which mouse buttons can this test?', answer: 'The page listens for standard pointer buttons: left, middle, right, back and forward. Extra vendor buttons only appear if the browser exposes them as those codes.' },
-  { question: 'Is this the same as a mouse click tester for CPS?', answer: 'No. This mouse button test checks whether a button fires at all. Click speed belongs on the CPS Test site, not here.' },
+  { question: 'Is this the same as a mouse click tester for CPS?', answer: 'No. This mouse button test checks whether a button fires at all. It does not count clicks per second or score how fast you click.' },
   { question: 'Why does the right-click menu appear?', answer: 'The test surface blocks the context menu so a right-button check can finish. Elsewhere on the page the browser menu still works.' },
 ];
 ---
@@ -35,7 +35,7 @@ const faq = [
         <div class="mouse-button-cell" data-mouse-button="3"><span>Back</span><strong>0</strong></div>
         <div class="mouse-button-cell" data-mouse-button="4"><span>Forward</span><strong>0</strong></div>
       </div>
-      <p class="tester-disclaimer">This mouse button test reports browser pointer events. A hardware double-click fault belongs on the mouse double click test. Click speed belongs on click-speed-test.net.</p>
+      <p class="tester-disclaimer">This mouse button test reports browser pointer events. If one press registers twice, use the mouse double click test. This page checks which buttons register; it doesn't measure click speed.</p>
     </section>
   </div>
   <section class="subpage-content shell">
@@ -51,8 +51,8 @@ const faq = [
     </article>
     <article class="info-card">
       <span class="panel-label">WHAT TO OPEN NEXT</span>
-      <h2>Keep device tests on this domain</h2>
-      <p>If one click becomes two events, open the <a class="inline-link" href="/mouse-double-click-test/">mouse double click test</a>. If you want travel distance, use the <a class="inline-link" href="/mouse-dpi-test/">mouse DPI test</a>. Hand speed stays on the CPS site.</p>
+      <h2>Pick the next check</h2>
+      <p>If one click becomes two events, open the <a class="inline-link" href="/mouse-double-click-test/">mouse double click test</a>. If you want travel distance, use the <a class="inline-link" href="/mouse-dpi-test/">mouse DPI test</a>. If every button registers once and travel looks right, the mouse hardware is behaving as the browser expects.</p>
     </article>
     <div class="tool-callout"><strong>Privacy by design:</strong> pointer events stay in your browser. Nothing is uploaded.</div>
   </section>

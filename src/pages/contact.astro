@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedTools from '../components/RelatedTools.astro';
+
+const EMAIL = 'nmlkareem161@gmail.com';
+---
+
+<BaseLayout title="Contact – Gamepad Tester" description="How to contact Gamepad Tester about a wrong reading, a controller mapping problem, a correction or a privacy question.">
+  <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">CONTACT</span><h1>Found a wrong reading?<br /><span>Tell us.</span></h1><p class="lede">Gamepad Tester is a small independent project. Email is the only contact channel, and every message is read by the person who maintains the site.</p><div class="profile-actions"><a class="primary-button" href={`mailto:${EMAIL}`}>Email {EMAIL} <span>→</span></a><a class="secondary-button" href="/gamepad-not-detected/">Troubleshooting guide</a></div></div></section>
+  <section class="subpage-content shell">
+    <article class="info-card"><span class="panel-label">EMAIL</span><h2>Write to us</h2><p>Send questions, bug reports and correction requests to <a class="inline-link" href={`mailto:${EMAIL}`}>{EMAIL}</a>. We usually reply within a few working days.</p><p>There is no support phone line, chat widget or contact form, so nothing you send passes through a third-party form service.</p></article>
+    <article class="info-card"><span class="panel-label">USEFUL DETAILS</span><h2>What helps us reproduce it</h2><p>If a test shows something unexpected, these details let us check whether the cause is the controller, the browser or the page:</p><ul><li>The page address and which panel looked wrong</li><li>Controller model and whether it was connected by USB or Bluetooth</li><li>Browser and version, plus Windows, macOS, Linux or ChromeOS</li><li>The text from the raw Gamepad API panel, if the page shows one</li></ul></article>
+    <article class="info-card"><span class="panel-label">BEFORE YOU WRITE</span><h2>Controller not showing up?</h2><p>Most "nothing happens" reports are detection problems: the controller has to be connected in the operating system first, and the browser only exposes it after a button press. The <a class="inline-link" href="/gamepad-not-detected/">controller not detected guide</a> walks through the usual fixes.</p></article>
+    <article class="info-card"><span class="panel-label">WHAT WE CANNOT DO</span><h2>Limits of email support</h2><p>We cannot repair hardware, process warranty claims or contact a manufacturer for you. Questions about a controller warranty belong with Sony, Microsoft, Nintendo, 8BitDo or whichever company made the device.</p><p>For how this site handles data, see the <a class="inline-link" href="/privacy-policy/">privacy policy</a> and the <a class="inline-link" href="/terms/">terms of use</a>.</p></article>
+  </section>
+  <RelatedTools hrefs={['/button-test/', '/stick-drift-test/', '/keyboard-test/', '/mouse-button-test/']} />
+</BaseLayout>

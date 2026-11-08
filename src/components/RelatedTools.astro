@@ -1,0 +1,9 @@
+---
+import { TOOL_PAGES } from '../data/site';
+
+interface Props { hrefs: string[]; kicker?: string; heading?: string; }
+const { hrefs, kicker = 'KEEP TESTING', heading = 'Related tools' } = Astro.props;
+const items = hrefs.map((href) => TOOL_PAGES.find((item) => item.href === href)).filter((item) => item !== undefined);
+---
+
+<section class="related-tools shell"><div class="section-heading"><div><span class="section-kicker">{kicker}</span><h2>{heading}</h2></div><a class="text-link" href="/tools/">See all tools →</a></div><div class="related-grid">{items.map((item) => <article class="related-card"><span>{item.kicker}</span><strong><a class="catalog-card-link" href={item.href}>{item.label}</a></strong><small>{item.description}</small><em>Open →</em></article>)}</div></section>

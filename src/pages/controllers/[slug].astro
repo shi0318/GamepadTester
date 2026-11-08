@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import GamepadBench from '../../components/GamepadBench.astro';
 import ControllerCard from '../../components/ControllerCard.astro';
 import { CONTROLLERS } from '../../data/controller-library';
 import { ADAPTERS } from '../../data/adapter-library';
@@ -24,6 +23,16 @@ const title = hasOwnToolPage
 const description = hasOwnToolPage
   ? `How the ${controller.name} behaves in a browser: connection modes, Gamepad API mapping, which inputs and rumble features appear, and known quirks.`
   : `Test ${controller.name} online and check browser mapping, connection modes, inputs, rumble support and known compatibility quirks.`;
+// Profiles are reference pages: they point at the focused tests instead of embedding the bench,
+// so the live tool lives on the test URLs and this page stays about the controller itself.
+const testLinks = [
+  hasOwnToolPage
+    ? { href: controller.testHref, kicker: 'Device test', label: `${controller.name} test`, description: `The full live tester with the ${controller.name} labels and notes.` }
+    : { href: '/', kicker: 'Full tester', label: 'Gamepad tester', description: `Every button, stick, trigger and rumble panel in one live view for the ${controller.name}.` },
+  { href: '/button-test/', kicker: 'Input map', label: 'Button test', description: 'Press each control and confirm it lights up the matching cell exactly once.' },
+  { href: '/stick-drift-test/', kicker: 'Analog sticks', label: 'Joystick drift test', description: 'Leave the sticks alone and check the reported center offset and jitter.' },
+  { href: '/trigger-test/', kicker: 'Analog triggers', label: 'Trigger test', description: 'Squeeze each trigger slowly and watch for a smooth 0 to 1.00 sweep.' },
+];
 const heading = hasOwnToolPage
   ? `${controller.name} compatibility and browser mapping.`
   : `${controller.name} compatibility and test guide.`;
@@ -32,8 +41,8 @@ const heading = hasOwnToolPage
 <BaseLayout title={title} description={description} canonicalPath={`/controllers/${controller.slug}/`} breadcrumbs={[{ name: 'Controllers', path: '/controllers/' }, { name: controller.name, path: `/controllers/${controller.slug}/` }]}>
   <section class="article-hero"><div class="shell article-hero-inner"><span class="subpage-kicker">{controller.category.toUpperCase()} CONTROLLER PROFILE</span><h1>{heading}</h1><p class="lede">{controller.summary}</p><div class="profile-actions"><a class="primary-button" href={controller.testHref === '/' ? '/#tester' : `${controller.testHref}#tester`}>Test this controller <span>→</span></a><a class="secondary-button" href="/controllers/">Browse all controllers</a></div></div></section>
   <section class="profile-summary shell"><div class="profile-facts"><div><span>Maker</span><strong>{controller.maker}</strong></div><div><span>Connection</span><strong>{controller.connection}</strong></div><div><span>Protocol</span><strong>{controller.protocol}</strong></div><div><span>Common platforms</span><strong>{controller.platforms.join(' · ')}</strong></div></div><div class="profile-note"><span class="panel-label">BROWSER MAPPING</span><p>{controller.browserMapping}</p></div></section>
-  <div class="tool-wrap"><GamepadBench mode={controller.slug === 'ps5-dualsense' ? 'ps5' : controller.slug === 'xbox-series-controller' ? 'xbox' : controller.slug === 'switch-pro-controller' ? 'switch' : 'full'} compact /></div>
-  <section class="profile-content shell"><article class="info-card"><span class="panel-label">INPUTS TO CHECK</span><h2>What the tester should show</h2><ul>{controller.inputs.map((input) => <li>{input}</li>)}</ul><p>Press each control on the <a class="inline-link" href="/#tester">full gamepad tester</a>. The button matrix and raw API panel are more reliable than a brand label when a controller is in a different mode.</p></article><article class="info-card"><span class="panel-label">OUTPUTS AND LIMITS</span><h2>What may not appear</h2><ul>{controller.outputs.map((output) => <li>{output}</li>)}</ul><p>Rumble is an optional browser capability. A missing rumble button does not by itself prove that the motor is damaged.</p></article><article class="info-card profile-wide"><span class="panel-label">KNOWN QUIRKS</span><h2>Before calling it broken</h2><ul>{controller.quirks.map((quirk) => <li>{quirk}</li>)}</ul></article></section>
+  <section class="related-tools shell profile-tests"><div class="section-heading"><div><span class="section-kicker">RUN THE TESTS</span><h2>Test this controller</h2></div><p class="section-intro">Each test opens on its own page with only the panels it needs.</p></div><div class="related-grid">{testLinks.map((item) => <article class="related-card"><span>{item.kicker}</span><strong><a class="catalog-card-link" href={item.href}>{item.label}</a></strong><small>{item.description}</small><em>Open test →</em></article>)}</div></section>
+  <section class="profile-content shell"><article class="info-card"><span class="panel-label">INPUTS TO CHECK</span><h2>What the tester should show</h2><ul>{controller.inputs.map((input) => <li>{input}</li>)}</ul><p>Press each control on the <a class="inline-link" href={controller.testHref === '/' ? '/#tester' : `${controller.testHref}#tester`}>live tester</a>. The button matrix and raw API panel are more reliable than a brand label when a controller is in a different mode.</p></article><article class="info-card"><span class="panel-label">OUTPUTS AND LIMITS</span><h2>What may not appear</h2><ul>{controller.outputs.map((output) => <li>{output}</li>)}</ul><p>Rumble is an optional browser capability. A missing rumble button does not by itself prove that the motor is damaged; the <a class="inline-link" href="/vibration-test/">vibration test</a> shows whether the browser exposes it at all.</p></article><article class="info-card profile-wide"><span class="panel-label">KNOWN QUIRKS</span><h2>Before calling it broken</h2><ul>{controller.quirks.map((quirk) => <li>{quirk}</li>)}</ul></article></section>
   {relatedAdapters.length > 0 && <section class="related-tools shell"><div class="section-heading"><div><span class="section-kicker">NEXT CONNECTION</span><h2>Adapters worth checking</h2></div><a class="text-link" href="/controller-adapters/">See all adapters →</a></div><div class="related-grid">{relatedAdapters.map((adapter) => <article class="related-card"><span>{adapter.category}</span><strong><a class="catalog-card-link" href={`/controller-adapters/${adapter.slug}/`}>{adapter.anchor}</a></strong><small>{adapter.input} → {adapter.output}</small><em>View guide →</em></article>)}</div></section>}
   <section class="related-tools shell"><div class="section-heading"><div><span class="section-kicker">MORE PROFILES</span><h2>Similar controllers</h2></div></div><div class="catalog-grid profile-related-grid">{relatedControllers.map((item) => <ControllerCard controller={item} />)}</div></section>
 </BaseLayout>

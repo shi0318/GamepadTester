@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('..', import.meta.url));
 
 test('Astro routes and shared components exist', () => {
-  for (const file of ['astro.config.mjs', 'public/gamepad-tester-logo.svg', 'public/gamepad-tester-favicon.svg', 'src/layouts/BaseLayout.astro', 'src/components/GamepadBench.astro', 'src/components/AdapterDirections.astro', 'src/scripts/gamepad-tester.js', 'src/scripts/input-diagnostics.js', 'src/data/controller-library.ts', 'src/data/adapter-library.ts', 'src/components/ControllerCard.astro', 'src/components/AdapterCard.astro', 'src/pages/index.astro', 'src/pages/404.astro', 'src/pages/about.astro', 'src/pages/tools/index.astro', 'src/pages/controllers/index.astro', 'src/pages/controllers/[slug].astro', 'src/pages/controller-adapters/index.astro', 'src/pages/controller-adapters/[slug].astro', 'src/pages/stick-drift-test/index.astro', 'src/pages/gamepad-calibration/index.astro', 'src/pages/button-test/index.astro', 'src/pages/vibration-test/index.astro', 'src/pages/ps5-controller-test/index.astro', 'src/pages/xbox-controller-test/index.astro', 'src/pages/switch-controller-test/index.astro', 'src/pages/gamepad-not-detected/index.astro', 'src/pages/keyboard-latency-test/index.astro', 'src/pages/mouse-dpi-test/index.astro', 'src/components/SisterSites.astro', 'src/pages/mouse-double-click-test/index.astro', 'src/pages/mouse-button-test/index.astro', 'src/pages/keyboard-test/index.astro']) assert.equal(fs.existsSync(path.join(root, file)), true, file);
+  for (const file of ['astro.config.mjs', 'public/gamepad-tester-logo.svg', 'public/gamepad-tester-favicon.svg', 'src/layouts/BaseLayout.astro', 'src/components/GamepadBench.astro', 'src/components/AdapterDirections.astro', 'src/scripts/gamepad-tester.js', 'src/scripts/input-diagnostics.js', 'src/data/controller-library.ts', 'src/data/adapter-library.ts', 'src/components/ControllerCard.astro', 'src/components/AdapterCard.astro', 'src/pages/index.astro', 'src/pages/404.astro', 'src/pages/about.astro', 'src/pages/tools/index.astro', 'src/pages/controllers/index.astro', 'src/pages/controllers/[slug].astro', 'src/pages/controller-adapters/index.astro', 'src/pages/controller-adapters/[slug].astro', 'src/pages/stick-drift-test/index.astro', 'src/pages/gamepad-calibration/index.astro', 'src/pages/button-test/index.astro', 'src/pages/vibration-test/index.astro', 'src/pages/ps5-controller-test/index.astro', 'src/pages/xbox-controller-test/index.astro', 'src/pages/switch-controller-test/index.astro', 'src/pages/gamepad-not-detected/index.astro', 'src/pages/keyboard-latency-test/index.astro', 'src/pages/mouse-dpi-test/index.astro', 'src/components/RelatedTools.astro', 'src/pages/terms.astro', 'src/pages/contact.astro', 'src/pages/mouse-double-click-test/index.astro', 'src/pages/mouse-button-test/index.astro', 'src/pages/keyboard-test/index.astro']) assert.equal(fs.existsSync(path.join(root, file)), true, file);
 });
 
 test('tool page contains static SEO metadata and Gamepad API hook', () => {
@@ -113,7 +113,8 @@ test('cards expose the title as anchor text instead of wrapping the whole block'
 });
 
 test('the about page is reachable from every page', () => {
-  assert.match(fs.readFileSync(path.join(root, 'src/components/Footer.astro'), 'utf8'), /href="\/about\/"/);
+  const footer = fs.readFileSync(path.join(root, 'src/components/Footer.astro'), 'utf8');
+  for (const href of ['/about/', '/contact/', '/privacy-policy/', '/terms/']) assert.ok(footer.includes(`href="${href}"`), href);
   assert.match(fs.readFileSync(path.join(root, 'src/components/WhatIsGamepadTester.astro'), 'utf8'), /href="\/about\/"/);
 });
 
@@ -172,4 +173,28 @@ test('keyboard latency and mouse DPI pages keep local-only diagnostics', () => {
   assert.match(script, /keydown/);
   assert.match(script, /pixels \/ inches|travel \/ inches/);
   assert.doesNotMatch(mouse, /mouse polling rate test/i);
+});
+
+test('focused test pages render only their own bench panels', () => {
+  const bench = fs.readFileSync(path.join(root, 'src/components/GamepadBench.astro'), 'utf8');
+  assert.match(bench, /buttons: \['controller', 'raw'\]/);
+  assert.match(bench, /drift: \['sticks', 'drift'\]/);
+  assert.match(bench, /calibration: \['drift', 'circularity'\]/);
+  assert.match(bench, /vibration: \['vibration'\]/);
+  assert.match(fs.readFileSync(path.join(root, 'src/pages/gamepad-calibration/index.astro'), 'utf8'), /mode="calibration"/);
+  assert.doesNotMatch(fs.readFileSync(path.join(root, 'src/pages/controllers/[slug].astro'), 'utf8'), /GamepadBench/);
+});
+
+test('pages do not promote other domains', () => {
+  const files = [];
+  const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) walk(full);
+    else if (/\.(astro|ts|js)$/.test(entry.name)) files.push(full);
+  });
+  walk(path.join(root, 'src'));
+  for (const file of files) {
+    const source = fs.readFileSync(file, 'utf8');
+    assert.doesNotMatch(source, /click-speed-test\.net|reactiontimetest\.fun|SISTER_SITES|separate domains|this domain|CPS site/i, file);
+  }
 });

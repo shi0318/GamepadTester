@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const faq = [
   { question: 'What is a mouse double click test?', answer: 'It watches how many click events arrive after you intend one press. A worn switch can fire twice close together. That is a device fault, not click speed.' },
-  { question: 'Is this the same as a double click speed test?', answer: 'No. Double click speed is a hand-speed task. This page diagnoses a mouse that double-fires on its own. Hand-speed tests belong on click-speed-test.net.' },
+  { question: 'Is this the same as a double click speed test?', answer: 'No. Double click speed is a hand-speed task. This page diagnoses a mouse that double-fires on its own, and it does not score how fast you click.' },
   { question: 'What counts as a double fire?', answer: 'Two click events on the same button within 80 milliseconds are flagged. That window is a practical browser heuristic, not a manufacturer spec.' },
 ];
 ---
@@ -34,14 +34,14 @@ const faq = [
         <div><span>Last gap</span><strong id="mouse-double-gap">—</strong></div>
         <div><span>Threshold</span><strong>80 ms</strong></div>
       </div>
-      <p class="tester-disclaimer">This mouse double click test diagnoses hardware bounce. It is not a double click speed score and not a CPS Test. Compare the same mouse in a second browser before replacing it.</p>
+      <p class="tester-disclaimer">This mouse double click test diagnoses hardware bounce. It is not a double click speed score or a clicks-per-second counter. Compare the same mouse in a second browser before replacing it.</p>
     </section>
   </div>
   <section class="subpage-content shell">
     <article class="info-card">
       <span class="panel-label">WHAT IT CHECKS</span>
       <h2>A bouncing switch, not hand speed</h2>
-      <p>A mouse double click test is for the “I clicked once and the desktop opened the file twice” problem. Keep jitter clicking and CPS scores on the click-speed site.</p>
+      <p>A mouse double click test is for the “I clicked once and the desktop opened the file twice” problem. Click one button at a normal pace; a fast clicking technique will produce close pairs on a healthy mouse too.</p>
     </article>
     <article class="info-card">
       <span class="panel-label">WHAT TO OPEN NEXT</span>

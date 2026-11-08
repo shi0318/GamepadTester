@@ -207,24 +207,6 @@ function updateCircularity() {
   }
 }
 
-function applyMode() {
-  const mode = $('#tester')?.dataset.gamepadTool || 'full';
-  const visible = {
-    full: ['sticks', 'drift', 'circularity', 'triggers', 'vibration'],
-    drift: ['sticks', 'drift', 'circularity'],
-    buttons: [],
-    vibration: ['vibration'],
-    triggers: ['triggers'],
-    polling: [],
-    ps5: ['sticks', 'drift', 'circularity', 'triggers', 'vibration'],
-    xbox: ['sticks', 'drift', 'circularity', 'triggers', 'vibration'],
-    switch: ['sticks', 'drift', 'circularity', 'triggers', 'vibration'],
-  }[mode] || [];
-  $$('[data-diagnostic]').forEach((panel) => {
-    panel.hidden = visible.length ? !visible.includes(panel.dataset.diagnostic) : true;
-  });
-}
-
 function rumble(kind) {
   const gamepad = currentGamepad();
   if (!gamepad?.vibrationActuator?.playEffect) return;
@@ -378,8 +360,9 @@ function frame(now) {
 }
 
 function init() {
+  // Pages render only the panels relevant to their test (see GamepadBench.astro), so every DOM
+  // lookup below must tolerate a missing element.
   if (!$('#tester')) return;
-  applyMode();
   if (typeof navigator.getGamepads !== 'function') {
     setUnsupportedBrowser();
     return;
