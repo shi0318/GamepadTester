@@ -52,6 +52,7 @@ const STANDALONE_LABELS: Record<string, string> = {
   '/controllers/': 'Controllers',
   '/controller-adapters/': 'Adapters',
   '/gamepad-not-detected/': 'Controller not detected',
+  '/stick-drift-fix/': 'Stick drift fix',
   '/about/': 'About',
   '/privacy-policy/': 'Privacy policy',
   '/terms/': 'Terms of use',

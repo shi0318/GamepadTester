@@ -198,3 +198,41 @@ test('pages do not promote other domains', () => {
     assert.doesNotMatch(source, /click-speed-test\.net|reactiontimetest\.fun|SISTER_SITES|separate domains|this domain|CPS site/i, file);
   }
 });
+
+test('every sitemap URL carries a lastmod from PAGE_LASTMOD and every entry is a built page', async (t) => {
+  const { PAGE_LASTMOD } = await import(new URL('../src/data/page-lastmod.mjs', import.meta.url));
+  for (const [pathname, date] of Object.entries(PAGE_LASTMOD)) {
+    assert.match(pathname, /^\/([a-z0-9-]+\/)*$/, pathname);
+    assert.match(date, /^\d{4}-\d{2}-\d{2}$/, pathname);
+    assert.ok(!Number.isNaN(Date.parse(date)), pathname);
+  }
+  const sitemapFile = path.join(root, 'dist', 'sitemap-0.xml');
+  if (!fs.existsSync(sitemapFile)) return t.skip('dist/ not built; run npm run build first');
+  const urls = [...fs.readFileSync(sitemapFile, 'utf8').matchAll(/<url>([\s\S]*?)<\/url>/g)].map((match) => match[1]);
+  assert.ok(urls.length > 0);
+  const listed = new Set();
+  for (const entry of urls) {
+    const pathname = new URL(entry.match(/<loc>([^<]+)<\/loc>/)[1]).pathname;
+    listed.add(pathname);
+    const lastmod = entry.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
+    assert.ok(lastmod, `missing lastmod for ${pathname}`);
+    assert.equal(lastmod.slice(0, 10), PAGE_LASTMOD[pathname], pathname);
+  }
+  for (const pathname of Object.keys(PAGE_LASTMOD)) {
+    assert.ok(listed.has(pathname), `PAGE_LASTMOD has ${pathname} but it is not in the sitemap`);
+    assert.ok(fs.existsSync(path.join(root, 'dist', pathname, 'index.html')), `PAGE_LASTMOD has ${pathname} but no page was built`);
+  }
+});
+
+test('stick drift fix guide is linked from the drift and calibration pages but not the main nav', () => {
+  const guide = fs.readFileSync(path.join(root, 'src/pages/stick-drift-fix/index.astro'), 'utf8');
+  assert.match(guide, /title="How to Fix Stick Drift/);
+  assert.match(guide, /faqs=\{faq\}/);
+  assert.match(guide, /href="\/stick-drift-test\/"/);
+  assert.match(guide, /href="\/gamepad-calibration\/"/);
+  assert.ok(fs.existsSync(path.join(root, 'public/illustrations/stick-drift-center-offset.svg')));
+  assert.match(fs.readFileSync(path.join(root, 'src/components/JoystickDriftGuide.astro'), 'utf8'), /href="\/stick-drift-fix\/"/);
+  assert.match(fs.readFileSync(path.join(root, 'src/pages/gamepad-calibration/index.astro'), 'utf8'), /href="\/stick-drift-fix\/"/);
+  assert.doesNotMatch(fs.readFileSync(path.join(root, 'src/components/Header.astro'), 'utf8'), /stick-drift-fix/);
+  assert.match(fs.readFileSync(path.join(root, 'src/data/site.ts'), 'utf8'), /'\/stick-drift-fix\/': 'Stick drift fix'/);
+});

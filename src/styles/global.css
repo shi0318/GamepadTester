@@ -32,3 +32,4 @@
 .catalog-card,.ecosystem-link,.explainer-link{position:relative}.catalog-card-link::after{position:absolute;z-index:1;border-radius:5px;content:"";inset:0}.catalog-card:hover h2,.related-card:hover strong,.feature-card:hover h3,.ecosystem-link:hover strong{color:var(--green)}.direction-intro{max-width:52rem;margin:0 0 1.15rem}.verify-list li::marker{color:var(--green)}.verify-links{margin-top:1.15rem;font-size:.68rem}
 .gamepad-grid.gamepad-grid-single{grid-template-columns:1fr}
 .telemetry-column>:only-child{grid-column:1/-1}
+.info-card.wide,.article-figure{grid-column:1/-1}.article-figure{margin:0;border:1px solid var(--line);border-radius:5px;background:var(--panel);padding:1.2rem}.article-figure img{display:block;width:100%;max-width:48rem;height:auto;margin-inline:auto;border-radius:4px}.article-figure figcaption{max-width:48rem;margin:.8rem auto 0;color:var(--muted);font-size:.68rem;line-height:1.6}.info-card code{color:var(--soft);font-size:.95em}
